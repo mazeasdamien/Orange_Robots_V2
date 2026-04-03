@@ -33,16 +33,13 @@ namespace RobotHub.Workers
         {
             try
             {
-                using var capture = new VideoCapture(cameraIndex);
+                // Use DirectShow for Windows - significantly more stable for older webcams!
+                using var capture = new VideoCapture(cameraIndex, VideoCaptureAPIs.DSHOW);
                 if (!capture.IsOpened())
                 {
                     _logger.LogWarning($"[WebcamWorker] USB Camera {cameraIndex} not found or busy!");
                     return;
                 }
-
-                // Generic performance optimization for standard webcams
-                capture.Set(VideoCaptureProperties.FrameWidth, 640);
-                capture.Set(VideoCaptureProperties.FrameHeight, 480);
 
                 _logger.LogInformation($"[WebcamWorker] USB Camera {cameraIndex} active. Streaming immediately...");
 
