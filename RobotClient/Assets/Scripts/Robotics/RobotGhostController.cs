@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RobotOrange.Networking;
-using System.Text.Json;
 using System;
 
 namespace RobotOrange.Robotics
@@ -22,6 +21,19 @@ namespace RobotOrange.Robotics
 
         private float[] _targetJoints = new float[6];
 
+        [Serializable]
+        private class TelemetryRoot
+        {
+            public TelemetryPayload payload;
+        }
+
+        [Serializable]
+        private class TelemetryPayload
+        {
+            public string robotId;
+            public float[] joints;
+        }
+
         void Start()
         {
             if (hubSocket == null) hubSocket = FindObjectOfType<HubSocket>();
@@ -32,20 +44,16 @@ namespace RobotOrange.Robotics
         {
             if (!jsonString.Contains("\"setRobotJoints\"")) return;
 
-            // Run parsing on background thread, apply locally
             try
             {
-                using var pdoc = JsonDocument.Parse(jsonString);
-                var root = pdoc.RootElement;
-                if (root.TryGetProperty("payload", out var payload) && 
-                    payload.TryGetProperty("robotId", out var rId) &&
-                    rId.GetString() == targetRobotId)
+                var msg = JsonUtility.FromJson<TelemetryRoot>(jsonString);
+                if (msg != null && msg.payload != null && msg.payload.robotId == targetRobotId)
                 {
-                    if (payload.TryGetProperty("joints", out var jointsArray))
+                    if (msg.payload.joints != null)
                     {
-                        for (int i = 0; i < Mathf.Min(6, jointsArray.GetArrayLength()); i++)
+                        for (int i = 0; i < Mathf.Min(6, msg.payload.joints.Length); i++)
                         {
-                            _targetJoints[i] = (float)jointsArray[i].GetDouble();
+                            _targetJoints[i] = msg.payload.joints[i];
                         }
                     }
                 }
