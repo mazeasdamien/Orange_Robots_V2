@@ -191,9 +191,21 @@
     padding: 20px;
 }
 
-.red-glow {
-    border-color: rgba(239, 68, 68, 0.3);
-    background-color: rgba(69, 10, 10, 0.4);
+.danger-zone {
+    border-color: rgba(239, 68, 68, 0.4);
+    background-color: rgba(20, 5, 5, 0.85);
+    border-width: 2px;
+}
+
+.col { flex-direction: column; }
+.stat-subtitle {
+    font-size: 11px;
+    color: #a1a1aa;
+    margin-top: 2px;
+}
+.center-lbl {
+    -unity-text-align: middle-center;
+    margin-bottom: 2px;
 }
 
 .stat-header-row {
@@ -242,15 +254,37 @@
     -unity-text-align: middle-right;
 }
 
-/* ACTIVATION SLIDER */
+/* ACTIVATION SLIDER & TOGGLE */
 .activation-header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     border-bottom-width: 1px;
     border-bottom-color: rgba(239, 68, 68, 0.2);
     padding-bottom: 12px;
+}
+
+.teleop-btn {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    border-width: 1px;
+    color: #ef4444;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+}
+.teleop-btn:hover {
+    background-color: #ef4444;
+    color: white;
+}
+
+.activation-body {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 8px;
 }
 
 .activation-slider {

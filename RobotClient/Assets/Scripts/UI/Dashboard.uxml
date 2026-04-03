@@ -64,14 +64,20 @@
                     <ui:VisualElement class="stat-row"><ui:Label text="AMPLITUDE" class="stat-lbl" /><ui:Label text="0.00" class="stat-val text-muted" /></ui:VisualElement>
                 </ui:VisualElement>
                 
-                <!-- Activation Panel -->
-                <ui:VisualElement class="stat-box glass-panel red-glow">
+                <!-- Teleoperation Safety Panel -->
+                <ui:VisualElement class="stat-box glass-panel danger-zone">
                     <ui:VisualElement class="activation-header">
-                        <ui:Label text="ENGAGEMENT MAX" class="stat-header text-red" />
-                        <ui:Toggle name="ActivateToggle" class="activate-toggle" />
+                        <ui:VisualElement class="col" style="flex-grow: 1;">
+                            <ui:Label text="TÉLÉOPÉRATION" class="stat-header text-red" />
+                            <ui:Label text="Contrôle moteurs" class="stat-subtitle" />
+                        </ui:VisualElement>
+                        <ui:Button name="TeleopBtn" text="ACTIVER" class="btn teleop-btn" />
                     </ui:VisualElement>
-                    <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider" />
-                    <ui:Label name="SliderValueLbl" text="0.50" class="slider-text text-red" />
+                    <ui:VisualElement class="activation-body">
+                        <ui:Label text="VITESSE DU ROBOT" class="stat-lbl center-lbl" />
+                        <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider" />
+                        <ui:Label name="SliderValueLbl" text="0.50" class="slider-text text-red" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
             
