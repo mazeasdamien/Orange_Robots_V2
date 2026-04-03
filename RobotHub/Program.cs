@@ -80,6 +80,7 @@ builder.Services.AddSingleton<UnityPushServer>(sp =>
 // UnityPushWorker handles RealSense intrinsics broadcast + client cleanup on stop.
 builder.Services.AddHostedService<UnityPushWorker>();
 builder.Services.AddHostedService<RobotBridgeWorker>();
+builder.Services.AddHostedService<WebcamWorker>();
 
 var app = builder.Build();
 

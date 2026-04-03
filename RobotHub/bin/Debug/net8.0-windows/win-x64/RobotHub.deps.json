@@ -10,6 +10,8 @@
       "RobotHub/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Hosting.WindowsServices": "8.0.1",
+          "OpenCvSharp4": "4.13.0.20260330",
+          "OpenCvSharp4.runtime.win": "4.13.0.20260302",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "8.0.25",
           "runtimepack.Microsoft.AspNetCore.App.Runtime.win-x64": "8.0.25"
         },
@@ -1317,6 +1319,24 @@
           }
         }
       },
+      "OpenCvSharp4/4.13.0.20260330": {
+        "runtime": {
+          "lib/net8.0/OpenCvSharp.dll": {
+            "assemblyVersion": "4.13.0.0",
+            "fileVersion": "4.13.0.0"
+          }
+        }
+      },
+      "OpenCvSharp4.runtime.win/4.13.0.20260302": {
+        "native": {
+          "runtimes/win-x64/native/OpenCvSharpExtern.dll": {
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/opencv_videoio_ffmpeg4130_64.dll": {
+            "fileVersion": "2025.12.0.0"
+          }
+        }
+      },
       "System.ServiceProcess.ServiceController/8.0.1": {
         "runtime": {
           "runtimes/win/lib/net8.0/System.ServiceProcess.ServiceController.dll": {
@@ -1349,6 +1369,20 @@
       "sha512": "sha512-5p0tjMDpr8tgzjBdu9Rzk8lUU/PaR1D3Us52XZypl85QTxfAjthR1+YywB3GsGc+FOZWdpuEDsV8kZisEC2Hng==",
       "path": "microsoft.extensions.hosting.windowsservices/8.0.1",
       "hashPath": "microsoft.extensions.hosting.windowsservices.8.0.1.nupkg.sha512"
+    },
+    "OpenCvSharp4/4.13.0.20260330": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fCoLdwfQfiBKpaDJNE8R48mXlwaMauvbHdX0q12Zs8+HnKQvUu6Ep0zQTSSVXv2hEvOGPZMJKepOXuWJDoLaTA==",
+      "path": "opencvsharp4/4.13.0.20260330",
+      "hashPath": "opencvsharp4.4.13.0.20260330.nupkg.sha512"
+    },
+    "OpenCvSharp4.runtime.win/4.13.0.20260302": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VC2n9CVZQvAm+p0NXW077e/MGkDBraT3ye4FdInRPpxTVK64DwGnLuIncS8mwrkVcKhqh82/KgcDgKXNWDndAA==",
+      "path": "opencvsharp4.runtime.win/4.13.0.20260302",
+      "hashPath": "opencvsharp4.runtime.win.4.13.0.20260302.nupkg.sha512"
     },
     "System.ServiceProcess.ServiceController/8.0.1": {
       "type": "package",
