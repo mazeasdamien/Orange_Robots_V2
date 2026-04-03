@@ -257,22 +257,22 @@
     margin-bottom: 12px;
     margin-top: 8px;
 }
-.activation-slider > .unity-base-slider__tracker {
-    background-color: rgba(255,255,255,0.1);
+.activation-slider .unity-base-slider__tracker {
+    background-color: rgba(255,255,255,0.15);
     border-width: 0;
-    height: 6px;
-    margin-top: -3px;
-    border-radius: 3px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 4px;
 }
-.activation-slider > .unity-base-slider__dragger {
+.activation-slider .unity-base-slider__dragger {
     background-color: #ef4444;
     border-width: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    margin-top: -10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -12px;
 }
-.activation-slider > .unity-base-slider__dragger:hover {
+.activation-slider .unity-base-slider__dragger:hover {
     scale: 1.2;
 }
 
