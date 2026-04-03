@@ -13,14 +13,17 @@
     <ui:VisualElement class="fullscreen-container">
         
         <!-- Left Panel: Video Feeds -->
-        <ui:VisualElement class="left-panel">
+        <ui:VisualElement class="left-panel glass-panel">
             <ui:VisualElement name="VideoFeed1" class="video-feed">
-                <!-- Top camera -->
+                <ui:Label text="CAMERA 01 • PRIMARY" class="camera-badge" />
+                <ui:VisualElement class="pulse-recording" />
             </ui:VisualElement>
             
+            <ui:VisualElement class="divider" />
+
             <ui:VisualElement name="VideoFeed2" class="video-feed relative">
-                <!-- Bottom camera -->
-                <ui:Button name="ScanBtn" text="SCAN" class="btn scan-btn" />
+                <ui:Label text="CAMERA 02 • SCANNER" class="camera-badge" />
+                <ui:Button name="ScanBtn" text="SCAN SCENE" class="btn scan-btn" />
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -28,42 +31,50 @@
         <ui:VisualElement class="right-panel">
             
             <!-- Semantic Input Header -->
-            <ui:VisualElement class="semantic-header">
-                <ui:Button name="RecordBtn" text="RECORD" class="btn record-btn" />
-                <ui:TextField name="IntentInput" placeholder-text="Record or Type..." class="semantic-input" />
+            <ui:VisualElement class="semantic-header glass-panel">
+                <ui:Button name="RecordBtn" text="● RECORD" class="btn record-btn" />
+                <ui:TextField name="IntentInput" placeholder-text="Speak or type semantic intent..." class="semantic-input" />
                 <ui:Button name="SubmitBtn" text="SUBMIT" class="btn submit-btn" />
             </ui:VisualElement>
             
             <!-- Stats Row -->
             <ui:VisualElement class="stats-row">
                 <!-- R1 Stats -->
-                <ui:VisualElement class="stat-box grey-box">
-                    <ui:VisualElement class="stat-row"><ui:Label text="R1" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
+                <ui:VisualElement class="stat-box glass-panel">
+                    <ui:VisualElement class="stat-header-row">
+                        <ui:Label text="ROBOT R1" class="stat-header" />
+                        <ui:VisualElement class="status-dot green-dot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="INTENT" class="stat-lbl" /><ui:Label text="AWAITING" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="CONFIDENCE" class="stat-lbl" /><ui:Label text="0.0%" class="stat-val text-muted" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="URGENCY" class="stat-lbl" /><ui:Label text="LOW" class="stat-val text-muted" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="AMPLITUDE" class="stat-lbl" /><ui:Label text="0.00" class="stat-val text-muted" /></ui:VisualElement>
                 </ui:VisualElement>
                 
                 <!-- R2 Stats -->
-                <ui:VisualElement class="stat-box grey-box">
-                    <ui:VisualElement class="stat-row"><ui:Label text="R2" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
+                <ui:VisualElement class="stat-box glass-panel">
+                    <ui:VisualElement class="stat-header-row">
+                        <ui:Label text="ROBOT R2" class="stat-header" />
+                        <ui:VisualElement class="status-dot green-dot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="INTENT" class="stat-lbl" /><ui:Label text="AWAITING" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="CONFIDENCE" class="stat-lbl" /><ui:Label text="0.0%" class="stat-val text-muted" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="URGENCY" class="stat-lbl" /><ui:Label text="LOW" class="stat-val text-muted" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:Label text="AMPLITUDE" class="stat-lbl" /><ui:Label text="0.00" class="stat-val text-muted" /></ui:VisualElement>
                 </ui:VisualElement>
                 
                 <!-- Activation Panel -->
-                <ui:VisualElement class="stat-box red-box">
+                <ui:VisualElement class="stat-box glass-panel red-glow">
                     <ui:VisualElement class="activation-header">
-                        <ui:Label text="Activate Robots" class="stat-header text-white" />
+                        <ui:Label text="SYSTEM ENGAGE" class="stat-header text-red" />
                         <ui:Toggle name="ActivateToggle" class="activate-toggle" />
                     </ui:VisualElement>
                     <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider" />
-                    <ui:Label name="SliderValueLbl" text="0.50" class="slider-text" />
+                    <ui:Label name="SliderValueLbl" text="0.50" class="slider-text text-red" />
                 </ui:VisualElement>
             </ui:VisualElement>
             
-            <!-- 3D Viewport (Transparent) -->
+            <!-- 3D Viewport (Transparent Layer) -->
             <ui:VisualElement class="render-viewport" />
             
         </ui:VisualElement>
