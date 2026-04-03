@@ -30,11 +30,13 @@ namespace RobotHub.Services
         public static event Action<bool>? OnUnityConnectionChanged;
 
         // ── Static state readable by workers ─────────────────────────────────
-        public static string? UnityClientIp { get; private set; }
-        public static string? RobotBridgeIp { get; private set; }
-        public static bool UnityClientConnected { get; private set; }
-        public static long LastUnityLatencyMs { get; private set; }
+        public static string? UnityClientIp { get; set; }
+        public static string? RobotBridgeIp { get; set; }
+        public static bool UnityClientConnected { get; set; }
+        public static long LastUnityLatencyMs { get; set; }
         public static ConnectionManager? CurrentManager { get; private set; }
+
+        public static void PushImageStats(int fps, int total) => OnImageStatsUpdated?.Invoke(fps, total);
 
         // ── FPS tracking ──────────────────────────────────────────────────────
         private static int _imagesTotal;

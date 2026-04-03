@@ -13,6 +13,10 @@ namespace RobotHub.Workers
         private readonly ILogger<WebcamWorker> _logger;
         private readonly UnityPushServer _unityPush;
 
+        private volatile int _framesLastSec;
+        private volatile int _totalFrames;
+        private DateTime _lastFpsTime = DateTime.Now;
+
         public WebcamWorker(ILogger<WebcamWorker> logger, UnityPushServer unityPush)
         {
             _logger = logger;
@@ -69,6 +73,17 @@ namespace RobotHub.Workers
 
                     Cv2.ImEncode(".jpg", sendMat, out byte[] imageBytes, encodeParams);
                     string b64 = Convert.ToBase64String(imageBytes);
+
+                    // Track FPS for dashboard
+                    Interlocked.Increment(ref _totalFrames);
+                    Interlocked.Increment(ref _framesLastSec);
+                    var now = DateTime.Now;
+                    if ((now - _lastFpsTime).TotalSeconds >= 1)
+                    {
+                        RobotRelayService.PushImageStats(_framesLastSec, _totalFrames);
+                        _framesLastSec = 0;
+                        _lastFpsTime = now;
+                    }
 
                     // Push video frames directly into Unity client (independent of ROS)
                     _ = _unityPush.BroadcastAsync(pushKey, $"{{\"data\":\"{b64}\"}}");

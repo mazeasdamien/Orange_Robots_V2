@@ -219,6 +219,8 @@ namespace RobotHub.Services
                 using var ws = await context.WebSockets.AcceptWebSocketAsync();
                 string clientId = Guid.NewGuid().ToString("N")[..8];
 
+                RobotRelayService.UnityClientConnected = true;
+
                 var client = new ConnectedClient(clientId, ws);
                 _clients.TryAdd(clientId, client);
                 Log($"Unity connected — id={clientId} ip={context.Connection.RemoteIpAddress} total={_clients.Count}");
@@ -267,6 +269,21 @@ namespace RobotHub.Services
                                 catch { }
                             }
 
+                            // Capture Unity internal telemetry (like latency derived from pings)
+                            if (msg.Contains("\"op\":\"unity_telemetry\"") || msg.Contains("\"type\":\"unity_telemetry\""))
+                            {
+                                try
+                                {
+                                    using var tdoc = JsonDocument.Parse(msg);
+                                    if (tdoc.RootElement.TryGetProperty("payload", out var payload) && 
+                                        payload.TryGetProperty("latency_ms", out var latEl))
+                                    {
+                                        RobotRelayService.LastUnityLatencyMs = (long)latEl.GetDouble();
+                                    }
+                                } catch { }
+                                continue;
+                            }
+
                             // Forward everything else to the active robots via ConnectionManager
                             var manager = app.Services.GetRequiredService<ConnectionManager>();
                             _ = manager.SendToRobotClient("Robot_Niryo_01", msg);
@@ -281,6 +298,7 @@ namespace RobotHub.Services
                     ArrayPool<byte>.Shared.Return(buffer);
                     _clients.TryRemove(clientId, out _);
                     await client.DisposeAsync();
+                    if (_clients.Count == 0) RobotRelayService.UnityClientConnected = false;
                     Log($"Unity disconnected — id={clientId} remaining={_clients.Count}");
                 }
             });
