@@ -23,6 +23,7 @@
 
             <ui:VisualElement name="VideoFeed2" class="video-feed relative">
                 <ui:Label text="CAMÉRA 02 • SCANNEUR" class="camera-badge" />
+                <ui:VisualElement class="pulse-recording" />
                 <ui:Button name="ScanBtn" text="SCANNER LA SCÈNE" class="btn scan-btn" />
             </ui:VisualElement>
         </ui:VisualElement>
