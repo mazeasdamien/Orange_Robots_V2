@@ -2,7 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    -unity-font-definition: initial;
 }
 
 .fullscreen-container {
@@ -34,6 +33,7 @@
 
 .video-feed {
     flex-grow: 1;
+    flex-basis: 0;
     width: 100%;
     background-color: #0d0f12;
     border-radius: 12px;
