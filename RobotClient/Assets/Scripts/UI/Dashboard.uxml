@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xsi="http://www.w3.org/2001/XMLSchema-instance"
+    engine="UnityEngine.UIElements"
+    editor="UnityEditor.UIElements"
+    noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+    editor-extension-mode="False">
+    
+    <Style src="project://database/Assets/Scripts/UI/Dashboard.uss" />
+
+    <ui:VisualElement class="fullscreen-container">
+        
+        <!-- Left Panel: Video Feeds -->
+        <ui:VisualElement class="left-panel">
+            <ui:VisualElement name="VideoFeed1" class="video-feed">
+                <!-- Top camera -->
+            </ui:VisualElement>
+            
+            <ui:VisualElement name="VideoFeed2" class="video-feed relative">
+                <!-- Bottom camera -->
+                <ui:Button name="ScanBtn" text="SCAN" class="btn scan-btn" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Right Panel: Semantics & 3D Scene Overlay -->
+        <ui:VisualElement class="right-panel">
+            
+            <!-- Semantic Input Header -->
+            <ui:VisualElement class="semantic-header">
+                <ui:Button name="RecordBtn" text="RECORD" class="btn record-btn" />
+                <ui:TextField name="IntentInput" placeholder-text="Record or Type..." class="semantic-input" />
+                <ui:Button name="SubmitBtn" text="SUBMIT" class="btn submit-btn" />
+            </ui:VisualElement>
+            
+            <!-- Stats Row -->
+            <ui:VisualElement class="stats-row">
+                <!-- R1 Stats -->
+                <ui:VisualElement class="stat-box grey-box">
+                    <ui:VisualElement class="stat-row"><ui:Label text="R1" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
+                </ui:VisualElement>
+                
+                <!-- R2 Stats -->
+                <ui:VisualElement class="stat-box grey-box">
+                    <ui:VisualElement class="stat-row"><ui:Label text="R2" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
+                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
+                </ui:VisualElement>
+                
+                <!-- Activation Panel -->
+                <ui:VisualElement class="stat-box red-box">
+                    <ui:VisualElement class="activation-header">
+                        <ui:Label text="Activate Robots" class="stat-header text-white" />
+                        <ui:Toggle name="ActivateToggle" class="activate-toggle" />
+                    </ui:VisualElement>
+                    <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider" />
+                    <ui:Label name="SliderValueLbl" text="0.50" class="slider-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- 3D Viewport (Transparent) -->
+            <ui:VisualElement class="render-viewport" />
+            
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
