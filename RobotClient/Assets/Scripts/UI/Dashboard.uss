@@ -13,7 +13,7 @@
 
 /* HIGH-END GLASSMORPHISM */
 .glass-panel {
-    background-image: -unity-linear-gradient(top, rgba(44, 44, 52, 0.85), rgba(36, 36, 43, 0.85));
+    background-color: rgba(36, 36, 43, 0.85);
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     border-radius: 16px;
