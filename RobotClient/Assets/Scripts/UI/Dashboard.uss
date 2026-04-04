@@ -126,7 +126,7 @@
 }
 
 .record-btn { 
-    font-size: 72px; 
+    font-size: 40px; 
     padding-bottom: 2px;
     background-color: rgba(239, 68, 68, 0.15); 
     border-width: 1px;
