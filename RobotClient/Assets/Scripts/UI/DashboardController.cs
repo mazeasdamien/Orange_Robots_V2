@@ -21,6 +21,12 @@ namespace RobotOrange.UI
         private bool _isPanning = false;
         private Vector3 _panOffset = Vector3.zero;
 
+        // Teleoperation Safety State
+        private Button _teleopBtn;
+        private bool _isArmed = false;
+        private bool _teleopActive = false;
+        private float _armTimeout = 0f;
+
         public UIDocument document;
         private HubSocket _hubSocket;
 
@@ -83,6 +89,52 @@ namespace RobotOrange.UI
                 {
                     _sliderValueLbl.text = evt.newValue.ToString("0.00");
                 });
+            }
+
+            var btnMinus = root.Q<Button>("BtnMinus");
+            if (btnMinus != null && _activationSlider != null) 
+                btnMinus.clicked += () => _activationSlider.value = Mathf.Clamp(_activationSlider.value - 0.05f, 0f, 1f);
+
+            var btnPlus = root.Q<Button>("BtnPlus");
+            if (btnPlus != null && _activationSlider != null) 
+                btnPlus.clicked += () => _activationSlider.value = Mathf.Clamp(_activationSlider.value + 0.05f, 0f, 1f);
+
+            _teleopBtn = root.Q<Button>("TeleopBtn");
+            if (_teleopBtn != null)
+            {
+                _teleopBtn.clicked += () =>
+                {
+                    if (!_teleopActive)
+                    {
+                        if (!_isArmed)
+                        {
+                            _isArmed = true;
+                            _armTimeout = Time.time + 3f; // 3 sec arm window
+                            _teleopBtn.text = "CONFIRMER";
+                            _teleopBtn.style.backgroundColor = new StyleColor(new Color(1f, 0.6f, 0f, 0.2f)); // Warning orange
+                            _teleopBtn.style.color = new StyleColor(new Color(1f, 0.6f, 0f, 1f));
+                            var warnColor = new StyleColor(new Color(1f, 0.6f, 0f, 1f));
+                            _teleopBtn.style.borderTopColor = warnColor;
+                            _teleopBtn.style.borderBottomColor = warnColor;
+                            _teleopBtn.style.borderLeftColor = warnColor;
+                            _teleopBtn.style.borderRightColor = warnColor;
+                        }
+                        else
+                        {
+                            _isArmed = false;
+                            _teleopActive = true;
+                            _teleopBtn.text = "STOP TÉLÉOP";
+                            _teleopBtn.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.26f, 1f)); // Solid red
+                            _teleopBtn.style.color = new StyleColor(Color.white);
+                        }
+                    }
+                    else
+                    {
+                        _teleopActive = false;
+                        _teleopBtn.text = "ACTIVER";
+                        ResetTeleopBtnSkin();
+                    }
+                };
             }
 
             var scanBtn = root.Q<Button>("ScanBtn");
@@ -255,6 +307,25 @@ namespace RobotOrange.UI
                 ghostCamera.transform.position = finalTarget + rot * new Vector3(0, 0, -_orbitDist);
                 ghostCamera.transform.LookAt(finalTarget);
             }
+
+            if (_isArmed && Time.time > _armTimeout)
+            {
+                _isArmed = false;
+                if (_teleopBtn != null) _teleopBtn.text = "ACTIVER";
+                ResetTeleopBtnSkin();
+            }
+        }
+
+        private void ResetTeleopBtnSkin()
+        {
+            if (_teleopBtn == null) return;
+            _teleopBtn.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.26f, 0.1f));
+            _teleopBtn.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f, 1f));
+            var redColor = new StyleColor(new Color(0.93f, 0.26f, 0.26f, 1f));
+            _teleopBtn.style.borderTopColor = redColor;
+            _teleopBtn.style.borderBottomColor = redColor;
+            _teleopBtn.style.borderLeftColor = redColor;
+            _teleopBtn.style.borderRightColor = redColor;
         }
 
         void OnDestroy()

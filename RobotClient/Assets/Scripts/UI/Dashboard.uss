@@ -290,6 +290,32 @@
     letter-spacing: 1px;
 }
 
+.slider-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.speed-slider {
+    flex-grow: 1;
+    margin: 0 8px;
+}
+.math-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    padding: 0;
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    border-width: 1px;
+}
+.math-btn:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
 .activation-body {
     flex-direction: column;
     justify-content: center;

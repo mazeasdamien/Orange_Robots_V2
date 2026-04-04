@@ -68,7 +68,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement class="activation-body">
                         <ui:Label text="VITESSE DU ROBOT" class="stat-lbl center-lbl"/>
-                        <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider"/>
+                        <ui:VisualElement class="slider-row"><ui:Button name="BtnMinus" text="-" class="btn math-btn"/><ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider speed-slider"/><ui:Button name="BtnPlus" text="+" class="btn math-btn"/></ui:VisualElement>
                         <ui:Label name="SliderValueLbl" text="0.50" class="slider-text text-red"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -77,4 +77,5 @@
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+
 
