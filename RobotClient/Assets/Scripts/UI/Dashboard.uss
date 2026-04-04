@@ -31,7 +31,7 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-.video-feed {
+.video-feed { min-height: 0; height: 50%; flex-shrink: 1; 
     flex-grow: 1;
     flex-basis: 0;
     width: 100%;
@@ -472,3 +472,4 @@
     margin-top: -3px;
     margin-bottom: 4px;
 }
+
