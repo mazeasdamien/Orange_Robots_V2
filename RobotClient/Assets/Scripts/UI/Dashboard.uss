@@ -467,7 +467,7 @@
 
 .stat-hint {
     font-size: 8px;
-    color: #fde047;
+    color: rgba(255, 255, 255, 0.45);
     -unity-font-style: italic;
     margin-left: 95px;
     margin-top: -3px;
