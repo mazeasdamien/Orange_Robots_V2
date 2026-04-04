@@ -196,6 +196,7 @@
     border-color: rgba(239, 68, 68, 0.4);
     background-color: rgba(20, 5, 5, 0.85);
     border-width: 2px;
+    justify-content: center;
 }
 
 .col { flex-direction: column; }
