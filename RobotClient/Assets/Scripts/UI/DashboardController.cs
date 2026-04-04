@@ -131,7 +131,7 @@ namespace RobotOrange.UI
                     else
                     {
                         _teleopActive = false;
-                        _teleopBtn.text = "ACTIVER";
+                        _teleopBtn.text = "ACTIVER ROBOTS";
                         ResetTeleopBtnSkin();
                     }
                 };
@@ -311,7 +311,7 @@ namespace RobotOrange.UI
             if (_isArmed && Time.time > _armTimeout)
             {
                 _isArmed = false;
-                if (_teleopBtn != null) _teleopBtn.text = "ACTIVER";
+                if (_teleopBtn != null) _teleopBtn.text = "ACTIVER ROBOTS";
                 ResetTeleopBtnSkin();
             }
         }

@@ -58,7 +58,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="stat-box glass-panel danger-zone">
                     <ui:VisualElement class="activation-header" style="justify-content: center; border-bottom-width: 0; padding-bottom: 0;">
-                        <ui:Button name="TeleopBtn" text="ACTIVER" class="btn teleop-btn" style="margin: 0; width: 100%; text-align: center;" />
+                        <ui:Button name="TeleopBtn" text="ACTIVER ROBOTS" class="btn teleop-btn" style="margin: 0; width: 100%; text-align: center;" />
                     </ui:VisualElement>
                     <ui:VisualElement class="activation-body" style="padding-top: 20px;">
                         <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 4px;">
