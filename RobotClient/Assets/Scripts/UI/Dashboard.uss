@@ -125,12 +125,13 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-.record-btn { font-size: 24px; padding-bottom: 2px;
+.record-btn { 
+    font-size: 72px; 
+    padding-bottom: 2px;
     background-color: rgba(239, 68, 68, 0.15); 
     border-width: 1px;
     border-color: #ef4444;
     color: #ef4444;
-    font-size: 15px;
     padding: 14px 24px;
     border-radius: 12px;
     -unity-font-style: bold;
