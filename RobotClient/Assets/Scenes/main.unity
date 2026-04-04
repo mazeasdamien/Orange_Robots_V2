@@ -479,6 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RobotOrange.UI.DashboardController
   ghostCamera: {fileID: 781761039}
+  orbitTarget: {fileID: 0}
   document: {fileID: 696481562}
 --- !u!114 &56260817
 MonoBehaviour:
@@ -5875,7 +5876,6 @@ GameObject:
   m_Component:
   - component: {fileID: 781761042}
   - component: {fileID: 781761039}
-  - component: {fileID: 781761041}
   - component: {fileID: 781761040}
   m_Layer: 0
   m_Name: Ghost Camera
@@ -5979,14 +5979,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &781761041
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 781761038}
-  m_Enabled: 1
 --- !u!4 &781761042
 Transform:
   m_ObjectHideFlags: 0

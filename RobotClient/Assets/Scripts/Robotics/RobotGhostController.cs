@@ -77,12 +77,12 @@ namespace RobotOrange.Robotics
                 float targetAngleDeg = _targetJoints[i] * Mathf.Rad2Deg;
 
                 Quaternion targetRot = Quaternion.AngleAxis(targetAngleDeg, rotationAxes[i]);
-                
+
                 // Lerp for smooth visuals even if network stutters
                 jointTransforms[i].localRotation = Quaternion.Slerp(jointTransforms[i].localRotation, targetRot, Time.deltaTime * 15f);
             }
         }
-        
+
         void OnDestroy()
         {
             if (hubSocket != null) hubSocket.OnMessageReceived -= HandleTelemetry;

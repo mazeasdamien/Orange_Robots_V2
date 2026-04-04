@@ -13,11 +13,13 @@ namespace RobotOrange.UI
         public Transform orbitTarget;
         private RenderTexture _sceneRT;
 
-        // Orbit State
+        // Orbit & Pan State
         private float _orbitX = 45f;
         private float _orbitY = 30f;
-        private float _orbitDist = 2f;
+        private float _orbitDist = 3f;
         private bool _isOrbiting = false;
+        private bool _isPanning = false;
+        private Vector3 _panOffset = Vector3.zero;
 
         public UIDocument document;
         private HubSocket _hubSocket;
@@ -154,7 +156,8 @@ namespace RobotOrange.UI
 
         private void OnScenePointerDown(PointerDownEvent evt)
         {
-            if (evt.button == 0 || evt.button == 1) _isOrbiting = true; // Left or Right click
+            if (evt.button == 0) _isOrbiting = true; // Left click orbit
+            if (evt.button == 1 || evt.button == 2) _isPanning = true; // Right or Middle click pan
             var el = evt.currentTarget as VisualElement;
             el?.CapturePointer(evt.pointerId);
         }
@@ -167,19 +170,28 @@ namespace RobotOrange.UI
                 _orbitY += evt.deltaPosition.y * 0.4f;
                 _orbitY = Mathf.Clamp(_orbitY, -89f, 89f);
             }
+            else if (_isPanning && ghostCamera != null)
+            {
+                // Pan scales smoothly with zoom distance
+                float panSens = _orbitDist * 0.0015f;
+                _panOffset -= ghostCamera.transform.right * evt.deltaPosition.x * panSens;
+                _panOffset += ghostCamera.transform.up * evt.deltaPosition.y * panSens;
+            }
         }
 
         private void OnScenePointerUp(EventBase evt)
         {
             if (evt is PointerUpEvent pu)
             {
-                if (pu.button == 0 || pu.button == 1) _isOrbiting = false;
+                if (pu.button == 0) _isOrbiting = false;
+                if (pu.button == 1 || pu.button == 2) _isPanning = false;
                 var el = pu.currentTarget as VisualElement;
                 el?.ReleasePointer(pu.pointerId);
             }
             else if (evt is PointerLeaveEvent)
             {
                 _isOrbiting = false;
+                _isPanning = false;
             }
         }
 
@@ -195,10 +207,12 @@ namespace RobotOrange.UI
 
             if (ghostCamera != null)
             {
-                Vector3 target = orbitTarget != null ? orbitTarget.position : Vector3.zero;
+                Vector3 baseTarget = orbitTarget != null ? orbitTarget.position : Vector3.zero;
+                Vector3 finalTarget = baseTarget + _panOffset;
+
                 Quaternion rot = Quaternion.Euler(_orbitY, _orbitX, 0);
-                ghostCamera.transform.position = target + rot * new Vector3(0, 0, -_orbitDist);
-                ghostCamera.transform.LookAt(target);
+                ghostCamera.transform.position = finalTarget + rot * new Vector3(0, 0, -_orbitDist);
+                ghostCamera.transform.LookAt(finalTarget);
             }
         }
 
