@@ -31,7 +31,7 @@ public static class DmzsFixUrpMaterials
         }
 
         // Pass 1: Clone materials on active scene renderers to sever ties with auto-resetting embedded STLs
-        foreach (var renderer in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (var renderer in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include))
         {
             var mats = renderer.sharedMaterials;
             bool modified = false;

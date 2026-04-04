@@ -36,7 +36,7 @@ namespace RobotOrange.Robotics
 
         void Start()
         {
-            if (hubSocket == null) hubSocket = FindObjectOfType<HubSocket>();
+            if (hubSocket == null) hubSocket = FindAnyObjectByType<HubSocket>();
             if (hubSocket != null) hubSocket.OnMessageReceived += HandleTelemetry;
         }
 
