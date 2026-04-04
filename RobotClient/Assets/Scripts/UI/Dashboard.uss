@@ -330,5 +330,11 @@
 /* 3D RENDER VIEWPORT */
 .render-viewport {
     flex-grow: 1;
-    background-color: transparent;
+    background-color: rgba(5,5,5, 0.8);
+    margin-top: 12px;
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    -unity-background-scale-mode: scale-and-crop;
 }

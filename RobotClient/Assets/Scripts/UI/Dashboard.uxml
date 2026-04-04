@@ -79,7 +79,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement class="render-viewport"/>
+            <ui:VisualElement name="SceneViewport" class="render-viewport"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

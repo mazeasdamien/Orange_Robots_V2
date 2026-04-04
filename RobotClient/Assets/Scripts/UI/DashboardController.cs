@@ -8,6 +8,10 @@ namespace RobotOrange.UI
     [RequireComponent(typeof(HubSocket))]
     public class DashboardController : MonoBehaviour
     {
+        [Header("3D Integration")]
+        public Camera ghostCamera; 
+        private RenderTexture _sceneRT;
+
         public UIDocument document;
         private HubSocket _hubSocket;
 
@@ -41,6 +45,15 @@ namespace RobotOrange.UI
 
             _activationSlider = root.Q<Slider>("ActivationSlider");
             _sliderValueLbl = root.Q<Label>("SliderValueLbl");
+
+            var sceneViewport = root.Q<VisualElement>("SceneViewport");
+            if (sceneViewport != null && ghostCamera != null)
+            {
+                // Auto-generate a high-res RenderTexture and direct the camera output into the UI!
+                _sceneRT = new RenderTexture(1920, 1080, 24, RenderTextureFormat.ARGB32);
+                ghostCamera.targetTexture = _sceneRT;
+                sceneViewport.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_sceneRT));
+            }
 
             // Event Hooks
             if (_activationSlider != null)
@@ -134,6 +147,8 @@ namespace RobotOrange.UI
         {
             if (_latestTex1 != null) Destroy(_latestTex1);
             if (_latestTex2 != null) Destroy(_latestTex2);
+            if (_sceneRT != null) { _sceneRT.Release(); Destroy(_sceneRT); }
+            if (ghostCamera != null) ghostCamera.targetTexture = null;
         }
     }
 
