@@ -125,7 +125,7 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-.record-btn {
+.record-btn { font-size: 24px; padding-bottom: 2px;
     background-color: rgba(239, 68, 68, 0.15); 
     border-width: 1px;
     border-color: #ef4444;
@@ -417,3 +417,4 @@
     background-color: rgba(239, 68, 68, 0.1);
     transition: all 0.3s;
 }
+

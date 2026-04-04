@@ -22,7 +22,7 @@
             <ui:VisualElement class="stats-row">
                 <ui:VisualElement class="stat-box glass-panel">
                     <ui:VisualElement class="stat-header-row">
-                        <ui:Label text="ROBOT R1" class="stat-header"/>
+                        <ui:Label text="🦾 ROBOT R1" class="stat-header"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="INTENTION" class="stat-lbl"/>
@@ -40,7 +40,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="stat-box glass-panel">
                     <ui:VisualElement class="stat-header-row">
-                        <ui:Label text="ROBOT R2" class="stat-header"/>
+                        <ui:Label text="🤖 ROBOT R2" class="stat-header"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="INTENTION" class="stat-lbl"/>
@@ -77,5 +77,6 @@
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+
 
 
