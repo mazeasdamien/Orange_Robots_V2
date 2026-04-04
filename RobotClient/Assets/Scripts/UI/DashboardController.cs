@@ -16,7 +16,7 @@ namespace RobotOrange.UI
         // Orbit & Pan State
         private float _orbitX = 45f;
         private float _orbitY = 30f;
-        private float _orbitDist = 3f;
+        private float _orbitDist = 1.2f;
         private bool _isOrbiting = false;
         private bool _isPanning = false;
         private Vector3 _panOffset = Vector3.zero;
@@ -146,15 +146,9 @@ namespace RobotOrange.UI
             {
                 _orbitX = 45f;
                 _orbitY = 30f;
-                _orbitDist = 3f;
+                _orbitDist = 1.2f;
                 _panOffset = Vector3.zero;
             };
-
-            var camZoomIn = root.Q<Button>("CamZoomIn");
-            if (camZoomIn != null) camZoomIn.clicked += () => _orbitDist = Mathf.Clamp(_orbitDist - 0.5f, 0.5f, 10f);
-
-            var camZoomOut = root.Q<Button>("CamZoomOut");
-            if (camZoomOut != null) camZoomOut.clicked += () => _orbitDist = Mathf.Clamp(_orbitDist + 0.5f, 0.5f, 10f);
 
             var scanBtn = root.Q<Button>("ScanBtn");
             if (scanBtn != null) scanBtn.clicked += () => Debug.Log("SCAN clicked");

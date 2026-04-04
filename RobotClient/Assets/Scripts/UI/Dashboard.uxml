@@ -69,7 +69,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="SceneViewport" class="render-viewport"><ui:VisualElement class="cam-controls"><ui:Button name="CamZoomIn" text="+" class="cam-btn"/><ui:Button name="CamZoomOut" text="-" class="cam-btn"/><ui:Button name="CamReset" text="⟲" class="cam-btn"/></ui:VisualElement></ui:VisualElement>
+            <ui:VisualElement name="SceneViewport" class="render-viewport" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
