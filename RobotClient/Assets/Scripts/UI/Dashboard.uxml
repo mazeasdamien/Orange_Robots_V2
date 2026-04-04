@@ -59,17 +59,19 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="stat-box glass-panel danger-zone">
-                    <ui:VisualElement class="activation-header">
-                        <ui:VisualElement class="col" style="flex-grow: 1;">
-                            <ui:Label text="TÉLÉOPÉRATION" class="stat-header text-red"/>
-                            <ui:Label text="Contrôle moteurs" class="stat-subtitle"/>
-                        </ui:VisualElement>
-                        <ui:Button name="TeleopBtn" text="ACTIVER" class="btn teleop-btn"/>
+                    <ui:VisualElement class="activation-header" style="justify-content: center; border-bottom-width: 0; padding-bottom: 0;">
+                        <ui:Button name="TeleopBtn" text="ACTIVER" class="btn teleop-btn" style="margin: 0; width: 100%; text-align: center;" />
                     </ui:VisualElement>
-                    <ui:VisualElement class="activation-body">
-                        <ui:Label text="VITESSE DU ROBOT" class="stat-lbl center-lbl"/>
-                        <ui:VisualElement class="slider-row"><ui:Button name="BtnMinus" text="-" class="btn math-btn"/><ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider speed-slider"/><ui:Button name="BtnPlus" text="+" class="btn math-btn"/></ui:VisualElement>
-                        <ui:Label name="SliderValueLbl" text="0.50" class="slider-text text-red"/>
+                    <ui:VisualElement class="activation-body" style="padding-top: 20px;">
+                        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 4px;">
+                            <ui:Label text="VITESSE DU ROBOT" class="stat-lbl"/>
+                            <ui:Label name="SliderValueLbl" text="0.50" class="stat-lbl text-red" style="-unity-font-style: bold;"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="slider-row">
+                            <ui:Button name="BtnMinus" text="-" class="btn math-btn"/>
+                            <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider speed-slider"/>
+                            <ui:Button name="BtnPlus" text="+" class="btn math-btn"/>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
