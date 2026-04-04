@@ -15,7 +15,7 @@
         </ui:VisualElement>
         <ui:VisualElement class="right-panel">
             <ui:VisualElement class="semantic-header glass-panel">
-                <ui:Button name="RecordBtn" text="● ENREG." class="btn record-btn"/>
+                <ui:Button name="RecordBtn" text="🎙" class="btn record-btn"/>
                 <ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input"/>
                 <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
             </ui:VisualElement>

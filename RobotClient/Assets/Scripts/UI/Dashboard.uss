@@ -232,7 +232,10 @@
 }
 .green-dot { background-color: #10b981; }
 
-.text-red { color: #fca5a5; }
+.text-red {
+    color: #ff9999;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
 .text-muted { color: #71717a; }
 
 .stat-row {
