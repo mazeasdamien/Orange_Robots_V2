@@ -16,7 +16,7 @@
         <ui:VisualElement class="right-panel">
             <ui:VisualElement class="semantic-header glass-panel">
                 <ui:Button name="RecordBtn" text="🎙" class="btn record-btn"/>
-                <ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input"/>
+                <ui:VisualElement style="flex-grow: 1; margin: 0 12px; justify-content: center;"><ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input" style="margin: 0;"/><ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" class="text-muted" style="font-size: 10px; margin-top: 4px;"/></ui:VisualElement>
                 <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
             </ui:VisualElement>
             <ui:VisualElement class="stats-row">
@@ -26,7 +26,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="INTENTION" class="stat-lbl"/>
-                        <ui:Label text="EN ATTENTE" class="stat-val"/>
+                        <ui:Label name="IntentLbl" text="⏳ EN ATTENTE" class="stat-val"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/>
@@ -44,7 +44,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="INTENTION" class="stat-lbl"/>
-                        <ui:Label text="EN ATTENTE" class="stat-val"/>
+                        <ui:Label name="IntentLbl" text="⏳ EN ATTENTE" class="stat-val"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
                         <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/>
@@ -77,6 +77,8 @@
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+
+
 
 
 

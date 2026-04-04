@@ -40,6 +40,7 @@ namespace RobotOrange.UI
         private ProgressBar _r1Conf;
         private ProgressBar _r1Amp;
         private Label _r1Urg;
+        private Label _r1Intent;
 
         private Texture2D _latestTex1;
         private Texture2D _latestTex2;
@@ -157,7 +158,25 @@ namespace RobotOrange.UI
             if (scanBtn != null) scanBtn.clicked += () => Debug.Log("SCAN clicked");
 
             var submitBtn = root.Q<Button>("SubmitBtn");
-            if (submitBtn != null) submitBtn.clicked += () => Debug.Log($"SUBMIT Semantic: {_intentInput?.value}");
+            var lastCmdLbl = root.Q<Label>("LastCommandLbl");
+            if (submitBtn != null) 
+            {
+                submitBtn.clicked += () => 
+                {
+                    Debug.Log($"SUBMIT Semantic: {_intentInput?.value}");
+                    if (lastCmdLbl != null && !string.IsNullOrEmpty(_intentInput?.value))
+                    {
+                        lastCmdLbl.text = $"Dernier ordre : {_intentInput.value}";
+                        _intentInput.value = "";
+                    }
+                };
+            }
+
+            var recordBtn = root.Q<Button>("RecordBtn");
+            if (recordBtn != null)
+            {
+                recordBtn.clicked += () => recordBtn.ToggleInClassList("listening");
+            }
 
             // Bind Gauges using Query to get the first (R1) instance
             var confBars = root.Query<ProgressBar>("ConfianceBar").ToList();
@@ -168,11 +187,25 @@ namespace RobotOrange.UI
 
             var urgLbls = root.Query<Label>("UrgenceLbl").ToList();
             if (urgLbls.Count > 0) _r1Urg = urgLbls[0];
+
+            var intentLbls = root.Query<Label>("IntentLbl").ToList();
+            if (intentLbls.Count > 0) _r1Intent = intentLbls[0];
         }
 
         // Extremely fast method to dynamically sweep gauges and swap pulse colors
-        public void UpdateR1Stats(float confidence, float amplitude, string urgency)
+        public void UpdateR1Stats(string intention, float confidence, float amplitude, string urgency)
         {
+            if (_r1Intent != null)
+            {
+                string upper = intention.ToUpper();
+                if (upper.Contains("SHOW") || upper.Contains("MONTRE")) _r1Intent.text = "👉 SHOW";
+                else if (upper.Contains("ALERT") || upper.Contains("ALERTE")) _r1Intent.text = "⚠️ ALERT";
+                else if (upper.Contains("ENCOURAGE")) _r1Intent.text = "✅ ENCOURAGE";
+                else if (upper.Contains("HESITATE") || upper.Contains("HÉSITATION")) _r1Intent.text = "❓ HESITATE";
+                else if (upper.Contains("ATTENTE")) _r1Intent.text = "⏳ EN ATTENTE";
+                else _r1Intent.text = $"⚡ {upper}";
+            }
+
             if (_r1Conf != null)
             {
                 _r1Conf.value = confidence;

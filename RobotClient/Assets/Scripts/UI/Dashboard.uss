@@ -457,3 +457,9 @@
     font-size: 14px;
     letter-spacing: 2px;
 }
+
+.listening {
+    background-color: #ef4444;
+    color: white;
+    scale: 1.1;
+}
