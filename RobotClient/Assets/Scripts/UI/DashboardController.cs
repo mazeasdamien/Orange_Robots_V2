@@ -41,8 +41,6 @@ namespace RobotOrange.UI
         private ProgressBar _r1Amp;
         private Label _r1Urg;
         private Label _r1Intent;
-        private Label _r1ConfHint;
-        private Label _r1AmpHint;
 
         private Texture2D _latestTex1;
         private Texture2D _latestTex2;
@@ -186,12 +184,6 @@ namespace RobotOrange.UI
 
             var intentLbls = root.Query<Label>("IntentLbl").ToList();
             if (intentLbls.Count > 0) _r1Intent = intentLbls[0];
-
-            var confHints = root.Query<Label>("ConfHint").ToList();
-            if (confHints.Count > 0) _r1ConfHint = confHints[0];
-
-            var ampHints = root.Query<Label>("AmpHint").ToList();
-            if (ampHints.Count > 0) _r1AmpHint = ampHints[0];
         }
 
         // Extremely fast method to dynamically sweep gauges and swap pulse colors
@@ -206,38 +198,6 @@ namespace RobotOrange.UI
                 else if (upper.Contains("HESITATE") || upper.Contains("HÉSITATION")) _r1Intent.text = "❓ HESITATE";
                 else if (upper.Contains("ATTENTE")) _r1Intent.text = "⏳ EN ATTENTE";
                 else _r1Intent.text = $"⚡ {upper}";
-
-                // Dynamic Physical Context Hints
-                if (_r1ConfHint != null && _r1AmpHint != null)
-                {
-                    if (upper.Contains("SHOW") || upper.Contains("MONTRE")) 
-                    {
-                        _r1ConfHint.text = "Modifier (κ): Inversely scales arc trajectory height";
-                        _r1AmpHint.text = "Modifier (α): Scales end-effector pointing distance";
-                    }
-                    else if (upper.Contains("HESITATE") || upper.Contains("HÉSITATION")) 
-                    {
-                        int cycles = Mathf.Max(1, Mathf.RoundToInt(confidence / 20f)); 
-                        string cycleVis = new string('●', cycles) + new string('○', 5 - cycles);
-                        _r1ConfHint.text = $"Thinking Cycles: {cycleVis} (Scales with κ)";
-                        _r1AmpHint.text = "Modifier (α): Controls lateral jitter intensity";
-                    }
-                    else if (upper.Contains("ALERT") || upper.Contains("ALERTE")) 
-                    {
-                        _r1ConfHint.text = "Modifier (κ): Controls stiffness of recoil snap";
-                        _r1AmpHint.text = "Modifier (α): Scales magnitude of evasion radius";
-                    }
-                    else if (upper.Contains("ENCOURAGE")) 
-                    {
-                        _r1ConfHint.text = "Modifier (κ): Modulates nodding confirmation frequency";
-                        _r1AmpHint.text = "Modifier (α): Scales amplitude of upward motion";
-                    }
-                    else 
-                    {
-                        _r1ConfHint.text = "Awaiting semantic context...";
-                        _r1AmpHint.text = "Awaiting kinematic bounds...";
-                    }
-                }
             }
 
             if (_r1Conf != null)
