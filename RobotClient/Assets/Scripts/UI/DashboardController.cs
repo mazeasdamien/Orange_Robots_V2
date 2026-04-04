@@ -10,7 +10,14 @@ namespace RobotOrange.UI
     {
         [Header("3D Integration")]
         public Camera ghostCamera; 
+        public Transform orbitTarget;
         private RenderTexture _sceneRT;
+
+        // Orbit State
+        private float _orbitX = 45f;
+        private float _orbitY = 30f;
+        private float _orbitDist = 2f;
+        private bool _isOrbiting = false;
 
         public UIDocument document;
         private HubSocket _hubSocket;
@@ -53,6 +60,13 @@ namespace RobotOrange.UI
                 _sceneRT = new RenderTexture(1920, 1080, 24, RenderTextureFormat.ARGB32);
                 ghostCamera.targetTexture = _sceneRT;
                 sceneViewport.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(_sceneRT));
+
+                // Bind strictly UI-constrained camera orbit controls
+                sceneViewport.RegisterCallback<PointerDownEvent>(OnScenePointerDown);
+                sceneViewport.RegisterCallback<PointerMoveEvent>(OnScenePointerMove);
+                sceneViewport.RegisterCallback<PointerUpEvent>(OnScenePointerUp);
+                sceneViewport.RegisterCallback<PointerLeaveEvent>(OnScenePointerUp); // Safety catch
+                sceneViewport.RegisterCallback<WheelEvent>(OnSceneWheel);
             }
 
             // Event Hooks
@@ -138,9 +152,54 @@ namespace RobotOrange.UI
             }
         }
 
+        private void OnScenePointerDown(PointerDownEvent evt)
+        {
+            if (evt.button == 0 || evt.button == 1) _isOrbiting = true; // Left or Right click
+            var el = evt.currentTarget as VisualElement;
+            el?.CapturePointer(evt.pointerId);
+        }
+
+        private void OnScenePointerMove(PointerMoveEvent evt)
+        {
+            if (_isOrbiting)
+            {
+                _orbitX += evt.deltaPosition.x * 0.4f;
+                _orbitY += evt.deltaPosition.y * 0.4f;
+                _orbitY = Mathf.Clamp(_orbitY, -89f, 89f);
+            }
+        }
+
+        private void OnScenePointerUp(EventBase evt)
+        {
+            if (evt is PointerUpEvent pu)
+            {
+                if (pu.button == 0 || pu.button == 1) _isOrbiting = false;
+                var el = pu.currentTarget as VisualElement;
+                el?.ReleasePointer(pu.pointerId);
+            }
+            else if (evt is PointerLeaveEvent)
+            {
+                _isOrbiting = false;
+            }
+        }
+
+        private void OnSceneWheel(WheelEvent evt)
+        {
+            _orbitDist += evt.delta.y * 0.05f; // Zoom
+            _orbitDist = Mathf.Clamp(_orbitDist, 0.5f, 10f);
+        }
+
         void Update()
         {
             UnityMainThreadDispatcher.Update();
+
+            if (ghostCamera != null)
+            {
+                Vector3 target = orbitTarget != null ? orbitTarget.position : Vector3.zero;
+                Quaternion rot = Quaternion.Euler(_orbitY, _orbitX, 0);
+                ghostCamera.transform.position = target + rot * new Vector3(0, 0, -_orbitDist);
+                ghostCamera.transform.LookAt(target);
+            }
         }
 
         void OnDestroy()
