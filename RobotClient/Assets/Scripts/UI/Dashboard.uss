@@ -338,3 +338,53 @@
     overflow: hidden;
     -unity-background-scale-mode: scale-and-crop;
 }
+
+/* GAUGES & PROGRESS BARS */
+.stat-progress {
+    flex-grow: 1;
+    height: 14px;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+.stat-progress .unity-progress-bar__container {
+    min-height: 14px;
+    max-height: 14px;
+}
+.stat-progress .unity-progress-bar__background {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+.stat-progress .unity-progress-bar__progress {
+    background-color: #3b82f6;
+    border-radius: 5px;
+    margin: 0;
+}
+.stat-progress .unity-progress-bar__title {
+    color: white;
+    font-size: 10px;
+    -unity-font-style: bold;
+}
+
+/* DYNAMIC URGENCY CLASSES */
+.urgency-faible {
+    color: #10b981; /* Emerald/Green */
+    -unity-font-style: bold;
+    transition: all 0.3s;
+}
+.urgency-moyenne {
+    color: #f59e0b; /* Yellow/Orange */
+    -unity-font-style: bold;
+    transition: all 0.3s;
+}
+.urgency-haute {
+    color: #ef4444; /* Forceful Red */
+    border-color: #ef4444;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 2px 6px;
+    -unity-font-style: bold;
+    background-color: rgba(239, 68, 68, 0.1);
+    transition: all 0.3s;
+}

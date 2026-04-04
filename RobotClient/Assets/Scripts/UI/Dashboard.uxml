@@ -30,16 +30,13 @@
                         <ui:Label text="EN ATTENTE" class="stat-val"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="CONFIANCE" class="stat-lbl"/>
-                        <ui:Label text="0.0%" class="stat-val text-muted"/>
+                        <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="URGENCE" class="stat-lbl"/>
-                        <ui:Label text="FAIBLE" class="stat-val text-muted"/>
+                        <ui:Label text="URGENCE" class="stat-lbl"/><ui:Label name="UrgenceLbl" text="FAIBLE" class="stat-val urgency-faible"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="AMPLITUDE" class="stat-lbl"/>
-                        <ui:Label text="0.00" class="stat-val text-muted"/>
+                        <ui:Label text="AMPLITUDE" class="stat-lbl"/><ui:ProgressBar name="AmplitudeBar" value="0.0" high-value="1.0" title="0.00" class="stat-progress"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="stat-box glass-panel">
@@ -52,16 +49,13 @@
                         <ui:Label text="EN ATTENTE" class="stat-val"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="CONFIANCE" class="stat-lbl"/>
-                        <ui:Label text="0.0%" class="stat-val text-muted"/>
+                        <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="URGENCE" class="stat-lbl"/>
-                        <ui:Label text="FAIBLE" class="stat-val text-muted"/>
+                        <ui:Label text="URGENCE" class="stat-lbl"/><ui:Label name="UrgenceLbl" text="FAIBLE" class="stat-val urgency-faible"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="stat-row">
-                        <ui:Label text="AMPLITUDE" class="stat-lbl"/>
-                        <ui:Label text="0.00" class="stat-val text-muted"/>
+                        <ui:Label text="AMPLITUDE" class="stat-lbl"/><ui:ProgressBar name="AmplitudeBar" value="0.0" high-value="1.0" title="0.00" class="stat-progress"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="stat-box glass-panel danger-zone">
@@ -83,3 +77,4 @@
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+

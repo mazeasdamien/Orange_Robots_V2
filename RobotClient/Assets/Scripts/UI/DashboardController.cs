@@ -30,6 +30,11 @@ namespace RobotOrange.UI
         private Slider _activationSlider;
         private Label _sliderValueLbl;
 
+        // Dynamic Gauges (Robot 1)
+        private ProgressBar _r1Conf;
+        private ProgressBar _r1Amp;
+        private Label _r1Urg;
+
         private Texture2D _latestTex1;
         private Texture2D _latestTex2;
 
@@ -85,6 +90,42 @@ namespace RobotOrange.UI
 
             var submitBtn = root.Q<Button>("SubmitBtn");
             if (submitBtn != null) submitBtn.clicked += () => Debug.Log($"SUBMIT Semantic: {_intentInput?.value}");
+
+            // Bind Gauges using Query to get the first (R1) instance
+            var confBars = root.Query<ProgressBar>("ConfianceBar").ToList();
+            if (confBars.Count > 0) _r1Conf = confBars[0];
+
+            var ampBars = root.Query<ProgressBar>("AmplitudeBar").ToList();
+            if (ampBars.Count > 0) _r1Amp = ampBars[0];
+
+            var urgLbls = root.Query<Label>("UrgenceLbl").ToList();
+            if (urgLbls.Count > 0) _r1Urg = urgLbls[0];
+        }
+
+        // Extremely fast method to dynamically sweep gauges and swap pulse colors
+        public void UpdateR1Stats(float confidence, float amplitude, string urgency)
+        {
+            if (_r1Conf != null)
+            {
+                _r1Conf.value = confidence;
+                _r1Conf.title = $"{confidence:0.0}%";
+            }
+            if (_r1Amp != null)
+            {
+                _r1Amp.value = amplitude;
+                _r1Amp.title = $"{amplitude:0.00}";
+            }
+            if (_r1Urg != null)
+            {
+                _r1Urg.text = urgency.ToUpper();
+                _r1Urg.RemoveFromClassList("urgency-faible");
+                _r1Urg.RemoveFromClassList("urgency-moyenne");
+                _r1Urg.RemoveFromClassList("urgency-haute");
+
+                if (urgency.ToLower() == "haute") _r1Urg.AddToClassList("urgency-haute");
+                else if (urgency.ToLower() == "moyenne") _r1Urg.AddToClassList("urgency-moyenne");
+                else _r1Urg.AddToClassList("urgency-faible");
+            }
         }
 
         private void HandleIncomingMessage(string jsonMessage)
