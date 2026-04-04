@@ -81,7 +81,7 @@
 
 /* BUTTON SYSTEMS */
 .btn {
-    cursor: pointer;
+    cursor: link;
     border-width: 0;
     transition-property: scale, background-color, border-color;
     transition-duration: 0.15s;
