@@ -137,6 +137,22 @@ namespace RobotOrange.UI
                 };
             }
 
+            // 3D Viewport Controls
+            var camReset = root.Q<Button>("CamReset");
+            if (camReset != null) camReset.clicked += () =>
+            {
+                _orbitX = 45f;
+                _orbitY = 30f;
+                _orbitDist = 3f;
+                _panOffset = Vector3.zero;
+            };
+
+            var camZoomIn = root.Q<Button>("CamZoomIn");
+            if (camZoomIn != null) camZoomIn.clicked += () => _orbitDist = Mathf.Clamp(_orbitDist - 0.5f, 0.5f, 10f);
+
+            var camZoomOut = root.Q<Button>("CamZoomOut");
+            if (camZoomOut != null) camZoomOut.clicked += () => _orbitDist = Mathf.Clamp(_orbitDist + 0.5f, 0.5f, 10f);
+
             var scanBtn = root.Q<Button>("ScanBtn");
             if (scanBtn != null) scanBtn.clicked += () => Debug.Log("SCAN clicked");
 
@@ -237,6 +253,8 @@ namespace RobotOrange.UI
                         if (targetTex.LoadImage(imageBytes))
                         {
                             targetPanel.style.backgroundImage = new StyleBackground(targetTex);
+                            var signalLbl = targetPanel.Q<Label>("NoSignalLbl");
+                            if (signalLbl != null) signalLbl.style.display = DisplayStyle.None;
                         }
                         else 
                         {

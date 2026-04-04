@@ -4,12 +4,12 @@
         <ui:VisualElement class="left-panel glass-panel">
             <ui:VisualElement name="VideoFeed1" class="video-feed">
                 <ui:Label text="CAMÉRA 01 • PRINCIPALE" class="camera-badge"/>
-                <ui:VisualElement class="pulse-recording"/>
+                <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
             </ui:VisualElement>
             <ui:VisualElement class="divider"/>
             <ui:VisualElement name="VideoFeed2" class="video-feed relative">
                 <ui:Label text="CAMÉRA 02 • SCANNEUR" class="camera-badge"/>
-                <ui:VisualElement class="pulse-recording"/>
+                <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
                 <ui:Button name="ScanBtn" text="SCANNER LA SCÈNE" class="btn scan-btn"/>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -73,10 +73,12 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="SceneViewport" class="render-viewport"/>
+            <ui:VisualElement name="SceneViewport" class="render-viewport"><ui:VisualElement class="cam-controls"><ui:Button name="CamZoomIn" text="+" class="cam-btn"/><ui:Button name="CamZoomOut" text="-" class="cam-btn"/><ui:Button name="CamReset" text="⟲" class="cam-btn"/></ui:VisualElement></ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+
+
 
 
 
