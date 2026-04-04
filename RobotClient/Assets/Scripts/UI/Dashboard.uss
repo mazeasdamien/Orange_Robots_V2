@@ -13,7 +13,7 @@
 
 /* HIGH-END GLASSMORPHISM */
 .glass-panel {
-    background-color: rgba(18, 20, 24, 0.75);
+    background-image: -unity-linear-gradient(top, rgba(44, 44, 52, 0.85), rgba(36, 36, 43, 0.85));
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -466,7 +466,7 @@
 
 .stat-hint {
     font-size: 8px;
-    color: rgba(255, 255, 255, 0.4);
+    color: #fde047;
     -unity-font-style: italic;
     margin-left: 95px;
     margin-top: -3px;
