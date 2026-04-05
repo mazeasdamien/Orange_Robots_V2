@@ -131,14 +131,12 @@
     background-color: rgba(239, 68, 68, 0.15); 
     border-width: 1px;
     border-color: #ef4444;
-    color: #ef4444;
     border-radius: 12px;
     -unity-font-style: bold;
     letter-spacing: 1px;
 }
 .record-btn:hover { 
-    background-color: #ef4444; 
-    color: white;
+    background-color: rgba(239, 68, 68, 0.35); 
 }
 
 .submit-btn {

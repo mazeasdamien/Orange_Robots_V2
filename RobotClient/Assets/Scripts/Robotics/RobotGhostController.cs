@@ -36,8 +36,33 @@ namespace RobotOrange.Robotics
 
         void Start()
         {
+            FixPinkMaterialsAtRuntime();
+
             if (hubSocket == null) hubSocket = FindAnyObjectByType<HubSocket>();
             if (hubSocket != null) hubSocket.OnMessageReceived += HandleTelemetry;
+        }
+
+        private void FixPinkMaterialsAtRuntime()
+        {
+            var renderers = GetComponentsInChildren<Renderer>(true);
+            var urpShader = Shader.Find("Universal Render Pipeline/Lit");
+            if (urpShader != null)
+            {
+                foreach (var r in renderers)
+                {
+                    foreach (var m in r.materials)
+                    {
+                        if (m.shader.name == "Standard" || m.shader.name == "Hidden/InternalErrorShader" || m.shader.name.Contains("Error"))
+                        {
+                            m.shader = urpShader;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[GhostController] URP Lit shader not found in Build. Please add it to Always Included Shaders.");
+            }
         }
 
         private void HandleTelemetry(string jsonString)
