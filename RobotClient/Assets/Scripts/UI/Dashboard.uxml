@@ -3,12 +3,12 @@
     <ui:VisualElement class="fullscreen-container">
         <ui:VisualElement class="left-panel glass-panel">
             <ui:VisualElement name="VideoFeed1" class="video-feed">
-                <ui:Label text="CAMÉRA 01 • PRINCIPALE" class="camera-badge"/>
+                <ui:Label text="CAMÉRA 01" class="camera-badge"/>
                 <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
             </ui:VisualElement>
             <ui:VisualElement class="divider"/>
             <ui:VisualElement name="VideoFeed2" class="video-feed relative">
-                <ui:Label text="CAMÉRA 02 • SCANNEUR" class="camera-badge"/>
+                <ui:Label text="CAMÉRA 02" class="camera-badge"/>
                 <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
                 <ui:Button name="ScanBtn" text="SCANNER LA SCÈNE" class="btn scan-btn"/>
             </ui:VisualElement>
@@ -20,7 +20,7 @@
                     <ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input" style="flex-grow: 1; margin: 0 12px;"/>
                     <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
                 </ui:VisualElement>
-                <ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" class="text-muted" style="font-size: 10px; margin-top: 8px; margin-left: 76px;"/>
+                <ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" style="font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-top: 8px; margin-left: 76px;"/>
             </ui:VisualElement>
             <ui:VisualElement class="stats-row">
                 <ui:VisualElement class="stat-box glass-panel">

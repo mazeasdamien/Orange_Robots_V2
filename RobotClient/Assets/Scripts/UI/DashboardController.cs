@@ -45,6 +45,14 @@ namespace RobotOrange.UI
         private Texture2D _latestTex1;
         private Texture2D _latestTex2;
 
+        private float _lastTime1 = 0;
+        private int _frames1 = 0;
+        private float _fps1 = 0;
+        
+        private float _lastTime2 = 0;
+        private int _frames2 = 0;
+        private float _fps2 = 0;
+
         void Awake()
         {
             _hubSocket = GetComponent<HubSocket>();
@@ -263,32 +271,76 @@ namespace RobotOrange.UI
                 return;
             }
 
-            // Specifically targets ' "data":"<base64>" ' from within the UnityPushServer wrapped payload
-            int dataIndex = jsonMessage.IndexOf("\"data\"");
-            if (dataIndex != -1)
+            try
             {
-                int colonIndex = jsonMessage.IndexOf(':', dataIndex);
-                int startQuote = jsonMessage.IndexOf('"', colonIndex + 1);
-                if (startQuote != -1)
+                // Robust extraction skipping the "data:image/jpeg;base64," prefix
+                int b64Index = jsonMessage.IndexOf("base64,");
+                if (b64Index != -1)
                 {
-                    int start = startQuote + 1;
-                    int end = jsonMessage.IndexOf('"', start);
-                    if (end != -1)
+                    int start = b64Index + 7;
+                    int endQuote = jsonMessage.IndexOf('"', start);
+                    if (endQuote != -1)
                     {
-                        string b64 = jsonMessage.Substring(start, end - start);
+                        string b64 = jsonMessage.Substring(start, endQuote - start);
                         byte[] imageBytes = Convert.FromBase64String(b64);
                         if (targetTex.LoadImage(imageBytes))
                         {
                             targetPanel.style.backgroundImage = new StyleBackground(targetTex);
-                            var signalLbl = targetPanel.Q<Label>("NoSignalLbl");
-                            if (signalLbl != null) signalLbl.style.display = DisplayStyle.None;
-                        }
-                        else 
-                        {
-                            Debug.LogWarning("[Dashboard] targetTex.LoadImage failed to parse base64 bytes!");
+                            ProcessVideoFeedUI(targetPanel);
                         }
                     }
                 }
+                else
+                {
+                    // Fallback to legacy raw string extract
+                    int payloadIndex = jsonMessage.IndexOf("\"payload\"");
+                    if (payloadIndex == -1) payloadIndex = jsonMessage.IndexOf("\"data\"");
+                    if (payloadIndex != -1)
+                    {
+                        int startQuote = jsonMessage.IndexOf('"', jsonMessage.IndexOf(':', payloadIndex));
+                        int endQuote = jsonMessage.IndexOf('"', startQuote + 1);
+                        if (startQuote != -1 && endQuote != -1)
+                        {
+                            string b64 = jsonMessage.Substring(startQuote + 1, endQuote - startQuote - 1);
+                            byte[] imageBytes = Convert.FromBase64String(b64);
+                            if (targetTex.LoadImage(imageBytes))
+                            {
+                                targetPanel.style.backgroundImage = new StyleBackground(targetTex);
+                                ProcessVideoFeedUI(targetPanel);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[Dashboard] Frame decode error: {ex.Message}");
+            }
+        }
+
+        private void ProcessVideoFeedUI(VisualElement targetPanel)
+        {
+            var signalLbl = targetPanel.Q<Label>("NoSignalLbl");
+            if (signalLbl != null) signalLbl.style.display = DisplayStyle.None;
+
+            var redDot = targetPanel.Q<VisualElement>(className: "pulse-recording");
+            if (redDot != null) redDot.style.backgroundColor = new StyleColor(new Color(0.13f, 0.87f, 0.35f, 1f)); // Green live
+
+            float now = Time.time;
+            string camName = targetPanel.name;
+            var badge = targetPanel.Q<Label>(className: "camera-badge");
+            
+            if (camName == "VideoFeed1")
+            {
+                _frames1++;
+                if (now - _lastTime1 >= 1f) { _fps1 = _frames1 / (now - _lastTime1); _frames1 = 0; _lastTime1 = now; }
+                if (badge != null) badge.text = $"CAMÉRA 01 ({_fps1:0} FPS)";
+            }
+            else 
+            {
+                _frames2++;
+                if (now - _lastTime2 >= 1f) { _fps2 = _frames2 / (now - _lastTime2); _frames2 = 0; _lastTime2 = now; }
+                if (badge != null) badge.text = $"CAMÉRA 02 ({_fps2:0} FPS)";
             }
         }
 

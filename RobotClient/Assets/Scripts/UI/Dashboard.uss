@@ -51,9 +51,9 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #a1a1aa;
-    padding: 6px 12px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    padding: 8px 14px;
     border-radius: 6px;
     font-size: 11px;
     -unity-font-style: bold;
@@ -131,14 +131,12 @@
     background-color: rgba(239, 68, 68, 0.15); 
     border-width: 1px;
     border-color: #ef4444;
-    color: #ef4444;
     border-radius: 12px;
     -unity-font-style: bold;
     letter-spacing: 1px;
 }
 .record-btn:hover { 
-    background-color: #ef4444; 
-    color: white;
+    background-color: rgba(239, 68, 68, 0.35); 
 }
 
 .submit-btn {
@@ -459,7 +457,7 @@
     letter-spacing: 2px;
 }
 
-.listening {
+.record-btn.listening {
     background-color: #ef4444;
     color: white;
     scale: 1.1;

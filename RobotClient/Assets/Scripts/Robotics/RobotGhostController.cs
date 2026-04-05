@@ -36,8 +36,53 @@ namespace RobotOrange.Robotics
 
         void Start()
         {
+            FixPinkMaterialsAtRuntime();
+
             if (hubSocket == null) hubSocket = FindAnyObjectByType<HubSocket>();
             if (hubSocket != null) hubSocket.OnMessageReceived += HandleTelemetry;
+        }
+
+        private void FixPinkMaterialsAtRuntime()
+        {
+            var renderers = GetComponentsInChildren<Renderer>(true);
+            var urpShader = Shader.Find("Universal Render Pipeline/Lit");
+            if (urpShader != null)
+            {
+                foreach (var r in renderers)
+                {
+                    var mats = r.materials;
+                    bool changed = false;
+                    for (int i = 0; i < mats.Length; i++)
+                    {
+                        var m = mats[i];
+                        if (m != null && (m.shader.name == "Standard" || m.shader.name == "Hidden/InternalErrorShader" || m.shader.name.Contains("Error")))
+                        {
+                            Color albedo = new Color(0.8f, 0.8f, 0.8f, 1f);
+                            if (m.HasProperty("_Color"))
+                            {
+                                try { albedo = m.GetColor("_Color"); } catch { }
+                            }
+
+                            Material newMat = new Material(urpShader);
+                            albedo.a = 1.0f; // Force Opaque
+                            newMat.SetColor("_BaseColor", albedo);
+
+                            if (m.HasProperty("_MainTex"))
+                            {
+                                try { newMat.SetTexture("_BaseMap", m.GetTexture("_MainTex")); } catch { }
+                            }
+
+                            mats[i] = newMat;
+                            changed = true;
+                        }
+                    }
+                    if (changed) r.materials = mats;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[GhostController] URP Lit shader not found in Build. Please add it to Always Included Shaders.");
+            }
         }
 
         private void HandleTelemetry(string jsonString)
