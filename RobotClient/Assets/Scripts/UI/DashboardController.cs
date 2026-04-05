@@ -45,6 +45,14 @@ namespace RobotOrange.UI
         private Texture2D _latestTex1;
         private Texture2D _latestTex2;
 
+        private float _lastTime1 = 0;
+        private int _frames1 = 0;
+        private float _fps1 = 0;
+        
+        private float _lastTime2 = 0;
+        private int _frames2 = 0;
+        private float _fps2 = 0;
+
         void Awake()
         {
             _hubSocket = GetComponent<HubSocket>();
@@ -278,6 +286,7 @@ namespace RobotOrange.UI
                         if (targetTex.LoadImage(imageBytes))
                         {
                             targetPanel.style.backgroundImage = new StyleBackground(targetTex);
+                            ProcessVideoFeedUI(targetPanel);
                         }
                     }
                 }
@@ -297,6 +306,7 @@ namespace RobotOrange.UI
                             if (targetTex.LoadImage(imageBytes))
                             {
                                 targetPanel.style.backgroundImage = new StyleBackground(targetTex);
+                                ProcessVideoFeedUI(targetPanel);
                             }
                         }
                     }
@@ -305,6 +315,32 @@ namespace RobotOrange.UI
             catch (Exception ex)
             {
                 Debug.LogWarning($"[Dashboard] Frame decode error: {ex.Message}");
+            }
+        }
+
+        private void ProcessVideoFeedUI(VisualElement targetPanel)
+        {
+            var signalLbl = targetPanel.Q<Label>("NoSignalLbl");
+            if (signalLbl != null) signalLbl.style.display = DisplayStyle.None;
+
+            var redDot = targetPanel.Q<VisualElement>(className: "pulse-recording");
+            if (redDot != null) redDot.style.backgroundColor = new StyleColor(new Color(0.13f, 0.87f, 0.35f, 1f)); // Green live
+
+            float now = Time.time;
+            string camName = targetPanel.name;
+            var badge = targetPanel.Q<Label>(className: "camera-badge");
+            
+            if (camName == "VideoFeed1")
+            {
+                _frames1++;
+                if (now - _lastTime1 >= 1f) { _fps1 = _frames1 / (now - _lastTime1); _frames1 = 0; _lastTime1 = now; }
+                if (badge != null) badge.text = $"🔴 CAMÉRA 01 • PRINCIPALE [EN DIRECT] ({_fps1:0} FPS)";
+            }
+            else 
+            {
+                _frames2++;
+                if (now - _lastTime2 >= 1f) { _fps2 = _frames2 / (now - _lastTime2); _frames2 = 0; _lastTime2 = now; }
+                if (badge != null) badge.text = $"🔴 CAMÉRA 02 • SCANNEUR [EN DIRECT] ({_fps2:0} FPS)";
             }
         }
 
