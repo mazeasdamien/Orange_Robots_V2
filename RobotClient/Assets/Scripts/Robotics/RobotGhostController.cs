@@ -54,7 +54,19 @@ namespace RobotOrange.Robotics
                     {
                         if (m.shader.name == "Standard" || m.shader.name == "Hidden/InternalErrorShader" || m.shader.name.Contains("Error"))
                         {
+                            Color albedo = new Color(0.8f, 0.8f, 0.8f, 1f);
+                            if (m.HasProperty("_Color")) 
+                            {
+                                try { albedo = m.GetColor("_Color"); } catch { }
+                            }
+
                             m.shader = urpShader;
+
+                            if (m.HasProperty("_BaseColor")) 
+                            {
+                                albedo.a = 1.0f; // Force Opaque to prevent invisible mesh
+                                m.SetColor("_BaseColor", albedo);
+                            }
                         }
                     }
                 }
