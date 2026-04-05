@@ -334,13 +334,13 @@ namespace RobotOrange.UI
             {
                 _frames1++;
                 if (now - _lastTime1 >= 1f) { _fps1 = _frames1 / (now - _lastTime1); _frames1 = 0; _lastTime1 = now; }
-                if (badge != null) badge.text = $"🔴 CAMÉRA 01 • PRINCIPALE [EN DIRECT] ({_fps1:0} FPS)";
+                if (badge != null) badge.text = $"CAMÉRA 01 ({_fps1:0} FPS)";
             }
             else 
             {
                 _frames2++;
                 if (now - _lastTime2 >= 1f) { _fps2 = _frames2 / (now - _lastTime2); _frames2 = 0; _lastTime2 = now; }
-                if (badge != null) badge.text = $"🔴 CAMÉRA 02 • SCANNEUR [EN DIRECT] ({_fps2:0} FPS)";
+                if (badge != null) badge.text = $"CAMÉRA 02 ({_fps2:0} FPS)";
             }
         }
 
