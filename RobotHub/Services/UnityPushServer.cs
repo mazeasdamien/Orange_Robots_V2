@@ -275,12 +275,13 @@ namespace RobotHub.Services
                                 try
                                 {
                                     using var tdoc = JsonDocument.Parse(msg);
-                                    if (tdoc.RootElement.TryGetProperty("payload", out var payload) && 
+                                    if (tdoc.RootElement.TryGetProperty("payload", out var payload) &&
                                         payload.TryGetProperty("latency_ms", out var latEl))
                                     {
                                         RobotRelayService.LastUnityLatencyMs = (long)latEl.GetDouble();
                                     }
-                                } catch { }
+                                }
+                                catch { }
                                 continue;
                             }
 

@@ -1,71 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ui:UXML
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:uie="UnityEditor.UIElements"
-    xsi="http://www.w3.org/2001/XMLSchema-instance"
-    engine="UnityEngine.UIElements"
-    editor="UnityEditor.UIElements"
-    noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
-    editor-extension-mode="False">
-    
-    <Style src="project://database/Assets/Scripts/UI/Dashboard.uss" />
-
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/Dashboard.uss?fileID=7433441132597879392&amp;guid=d07376054ddddb64faa8a295e7be0a97&amp;type=3#Dashboard"/>
     <ui:VisualElement class="fullscreen-container">
-        
-        <!-- Left Panel: Video Feeds -->
-        <ui:VisualElement class="left-panel">
+        <ui:VisualElement class="left-panel glass-panel">
             <ui:VisualElement name="VideoFeed1" class="video-feed">
-                <!-- Top camera -->
+                <ui:Label text="CAMÉRA 01 • PRINCIPALE" class="camera-badge"/>
+                <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
             </ui:VisualElement>
-            
+            <ui:VisualElement class="divider"/>
             <ui:VisualElement name="VideoFeed2" class="video-feed relative">
-                <!-- Bottom camera -->
-                <ui:Button name="ScanBtn" text="SCAN" class="btn scan-btn" />
+                <ui:Label text="CAMÉRA 02 • SCANNEUR" class="camera-badge"/>
+                <ui:VisualElement class="pulse-recording"/><ui:Label name="NoSignalLbl" text="📡 SIGNAL LOST" class="no-signal"/>
+                <ui:Button name="ScanBtn" text="SCANNER LA SCÈNE" class="btn scan-btn"/>
             </ui:VisualElement>
         </ui:VisualElement>
-
-        <!-- Right Panel: Semantics & 3D Scene Overlay -->
         <ui:VisualElement class="right-panel">
-            
-            <!-- Semantic Input Header -->
-            <ui:VisualElement class="semantic-header">
-                <ui:Button name="RecordBtn" text="RECORD" class="btn record-btn" />
-                <ui:TextField name="IntentInput" placeholder-text="Record or Type..." class="semantic-input" />
-                <ui:Button name="SubmitBtn" text="SUBMIT" class="btn submit-btn" />
+            <ui:VisualElement class="semantic-header glass-panel">
+                <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: space-between; width: 100%;">
+                    <ui:Button name="RecordBtn" text="🎙" class="btn record-btn"/>
+                    <ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input" style="flex-grow: 1; margin: 0 12px;"/>
+                    <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
+                </ui:VisualElement>
+                <ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" class="text-muted" style="font-size: 10px; margin-top: 8px; margin-left: 76px;"/>
             </ui:VisualElement>
-            
-            <!-- Stats Row -->
             <ui:VisualElement class="stats-row">
-                <!-- R1 Stats -->
-                <ui:VisualElement class="stat-box grey-box">
-                    <ui:VisualElement class="stat-row"><ui:Label text="R1" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
-                </ui:VisualElement>
-                
-                <!-- R2 Stats -->
-                <ui:VisualElement class="stat-box grey-box">
-                    <ui:VisualElement class="stat-row"><ui:Label text="R2" class="stat-header" /><ui:Label text="INTENT" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="CONFIDENCE" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="URGENCY" class="stat-val" /></ui:VisualElement>
-                    <ui:VisualElement class="stat-row"><ui:VisualElement/><ui:Label text="AMPLITUDE" class="stat-val" /></ui:VisualElement>
-                </ui:VisualElement>
-                
-                <!-- Activation Panel -->
-                <ui:VisualElement class="stat-box red-box">
-                    <ui:VisualElement class="activation-header">
-                        <ui:Label text="Activate Robots" class="stat-header text-white" />
-                        <ui:Toggle name="ActivateToggle" class="activate-toggle" />
+                <ui:VisualElement class="stat-box glass-panel">
+                    <ui:VisualElement class="stat-header-row">
+                        <ui:Label text="🟣 ROBOT R1" class="stat-header"/>
                     </ui:VisualElement>
-                    <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider" />
-                    <ui:Label name="SliderValueLbl" text="0.50" class="slider-text" />
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="INTENTION" class="stat-lbl"/>
+                        <ui:Label name="IntentLbl" text="⏳ EN ATTENTE" class="stat-val"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/></ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="URGENCE" class="stat-lbl"/><ui:Label name="UrgenceLbl" text="FAIBLE" class="stat-val urgency-faible"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="AMPLITUDE" class="stat-lbl"/><ui:ProgressBar name="AmplitudeBar" value="0.0" high-value="1.0" title="0.00" class="stat-progress"/></ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-box glass-panel">
+                    <ui:VisualElement class="stat-header-row">
+                        <ui:Label text="🔵 ROBOT R2" class="stat-header"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="INTENTION" class="stat-lbl"/>
+                        <ui:Label name="IntentLbl" text="⏳ EN ATTENTE" class="stat-val"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="CONFIANCE" class="stat-lbl"/><ui:ProgressBar name="ConfianceBar" value="0" high-value="100" title="0%" class="stat-progress"/></ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="URGENCE" class="stat-lbl"/><ui:Label name="UrgenceLbl" text="FAIBLE" class="stat-val urgency-faible"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-row">
+                        <ui:Label text="AMPLITUDE" class="stat-lbl"/><ui:ProgressBar name="AmplitudeBar" value="0.0" high-value="1.0" title="0.00" class="stat-progress"/></ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-box glass-panel danger-zone">
+                    <ui:VisualElement class="activation-header" style="justify-content: center; border-bottom-width: 0; padding-bottom: 0;">
+                        <ui:Button name="TeleopBtn" text="ACTIVER ROBOTS" class="btn teleop-btn" style="margin: 0; width: 100%; text-align: center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="activation-body" style="padding-top: 20px;">
+                        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 4px;">
+                            <ui:Label text="VITESSE DU ROBOT" class="stat-lbl"/>
+                            <ui:Label name="SliderValueLbl" text="0.50" class="stat-lbl text-red" style="-unity-font-style: bold;"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="slider-row">
+                            <ui:Button name="BtnMinus" text="-" class="btn math-btn"/>
+                            <ui:Slider name="ActivationSlider" low-value="0" high-value="1" value="0.5" class="activation-slider speed-slider"/>
+                            <ui:Button name="BtnPlus" text="+" class="btn math-btn"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            
-            <!-- 3D Viewport (Transparent) -->
-            <ui:VisualElement class="render-viewport" />
-            
+            <ui:VisualElement name="SceneViewport" class="render-viewport" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
+
+
+
+
+
+
+
+

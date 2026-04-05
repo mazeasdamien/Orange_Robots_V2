@@ -1,3 +1,4 @@
+/* BASE RESET & TYPOGRAPHY */
 * {
     margin: 0;
     padding: 0;
@@ -7,145 +8,518 @@
     flex-grow: 1;
     flex-direction: row;
     background-color: transparent;
+    padding: 24px;
+}
+
+/* HIGH-END GLASSMORPHISM */
+.glass-panel {
+    background-color: rgba(36, 36, 43, 0.85);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
 }
 
 /* LEFT PANEL (Videos) */
 .left-panel {
-    width: 50%;
+    width: 40%;
     flex-direction: column;
-    background-color: black;
+    padding: 12px;
+    margin-right: 12px;
+    /* Soft shadow to separate from 3D background */
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
-.video-feed {
-    height: 50%;
+.video-feed { min-height: 0; height: 50%; flex-shrink: 1; 
+    flex-grow: 1;
+    flex-basis: 0;
     width: 100%;
-    background-color: #1a1a1a;
-    justify-content: flex-end;
-    align-items: center;
+    background-color: #0d0f12;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Inner shadow effect pseudo */
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.5);
+}
+
+.divider {
+    height: 8px;
+}
+
+.camera-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #a1a1aa;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pulse-recording {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #ef4444;
 }
 
 .relative {
     position: relative;
-    padding-bottom: 5%;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 24px;
+}
+
+/* BUTTON SYSTEMS */
+.btn {
+    border-width: 0;
+    transition-property: scale, background-color, border-color;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out-back;
+}
+.btn:hover {
+    scale: 1.03;
 }
 
 .scan-btn {
-    width: 250px;
-    height: 40px;
-    background-color: rgba(60, 60, 60, 0.7);
-    color: #999999;
-    font-size: 20px;
-    border-radius: 4px;
-    border-width: 0;
+    width: 220px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 15px;
+    letter-spacing: 1px;
     -unity-font-style: bold;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
 }
-.scan-btn:hover { background-color: rgba(80, 80, 80, 0.8); color: white; }
+.scan-btn:hover { 
+    background-color: rgba(255, 255, 255, 0.2); 
+    border-color: rgba(255, 255, 255, 0.4);
+}
 
 /* RIGHT PANEL (UI + 3D background) */
 .right-panel {
-    width: 50%;
+    width: 60%;
     flex-direction: column;
-    background-color: transparent; /* lets 3D camera show through */
+    background-color: transparent;
 }
 
 /* SEMANTIC HEADER */
 .semantic-header {
-    flex-direction: row;
-    background-color: rgba(140, 140, 140, 0.6);
-    padding: 10px;
-    align-items: center;
+    flex-direction: column;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-bottom-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
-.btn {
-    cursor: pointer;
-    border-width: 0;
-    border-radius: 2px;
+.record-btn { 
+    font-size: 24px; 
+    height: 48px;
+    width: 64px;
+    padding: 0;
+    background-color: rgba(239, 68, 68, 0.15); 
+    border-width: 1px;
+    border-color: #ef4444;
+    color: #ef4444;
+    border-radius: 12px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
 }
-
-.record-btn {
-    background-color: #22c55e;
+.record-btn:hover { 
+    background-color: #ef4444; 
     color: white;
-    font-size: 24px;
-    padding: 10px 20px;
 }
+
 .submit-btn {
-    background-color: white;
-    color: black;
-    font-size: 20px;
-    padding: 12px 20px;
+    background-color: rgba(59, 130, 246, 0.15);
+    border-width: 1px;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    font-size: 15px;
+    height: 48px;
+    padding: 0 28px;
+    border-radius: 12px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+}
+.submit-btn:hover { 
+    background-color: #3b82f6;
+    color: white;
 }
 
 .semantic-input {
     flex-grow: 1;
-    font-size: 24px;
+    font-size: 18px;
     background-color: transparent;
-    -unity-font-style: italic;
-    color: #555555;
-    margin: 0 10px;
+    color: white;
+    margin: 0 16px;
+    padding: 0;
 }
 .semantic-input > .unity-base-field__input {
-    background-color: transparent;
-    border-width: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+    color: white;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+}
+.semantic-input > .unity-base-field__input:focus {
+    border-color: #3b82f6;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* STATS ROW */
+/* STATS CARDS */
 .stats-row {
     flex-direction: row;
-    justify-content: flex-start;
-    padding: 10px;
+    justify-content: space-between;
 }
 
 .stat-box {
-    margin-right: 10px;
-    padding: 10px;
-    flex-grow: 1;
+    width: 32%;
+    padding: 20px;
 }
 
-.grey-box {
-    background-color: rgba(120, 120, 120, 0.8);
-}
-.red-box {
-    background-color: rgba(153, 27, 27, 0.9);
-    align-items: center;
+.danger-zone {
+    border-color: rgba(239, 68, 68, 0.4);
+    background-color: rgba(20, 5, 5, 0.85);
+    border-width: 2px;
+    justify-content: center;
 }
 
-.stat-row {
+.col { flex-direction: column; }
+.stat-subtitle {
+    font-size: 11px;
+    color: #a1a1aa;
+    margin-top: 2px;
+}
+.center-lbl {
+    -unity-text-align: middle-center;
+    margin-bottom: 2px;
+}
+
+.stat-header-row {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255,255,255,0.1);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .stat-header {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
+    letter-spacing: 2px;
     -unity-font-style: bold;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+}
+.green-dot { background-color: #10b981; }
+
+.text-red {
+    color: #ff9999;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+.text-muted { color: #71717a; }
+
+.stat-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.stat-lbl {
+    color: #a1a1aa;
+    font-size: 13px;
+    letter-spacing: 1px;
 }
 .stat-val {
     color: white;
-    font-size: 18px;
+    font-size: 14px;
+    -unity-font-style: bold;
     -unity-text-align: middle-right;
 }
 
-.text-white { color: white; }
-
+/* ACTIVATION SLIDER & TOGGLE */
 .activation-header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(239, 68, 68, 0.2);
+    padding-bottom: 12px;
+    flex-wrap: wrap;
 }
-.activation-slider {
-    width: 80%;
+
+.teleop-btn {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    border-width: 2px;
+    color: #ef4444;
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    margin-left: 8px;
+    margin-top: 4px;
 }
-.activate-toggle { margin: 0; padding: 0; }
-.slider-text {
+.teleop-btn:hover {
+    background-color: #ef4444;
     color: white;
-    font-size: 18px;
-    margin-top: 5px;
+}
+
+.danger-zone .stat-header {
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.slider-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.speed-slider {
+    flex-grow: 1;
+    margin: 0 8px;
+}
+.math-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    padding: 0;
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    border-width: 1px;
+}
+.math-btn:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
+.activation-body {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+.activation-slider {
+    margin-bottom: 12px;
+    margin-top: 8px;
+}
+.activation-slider .unity-base-slider__tracker {
+    background-color: rgba(255,255,255,0.15);
+    border-width: 0;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 4px;
+}
+.activation-slider .unity-base-slider__dragger {
+    background-color: #ef4444;
+    border-width: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -12px;
+}
+.activation-slider .unity-base-slider__dragger:hover {
+    scale: 1.2;
+}
+
+.slider-text {
+    font-size: 28px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    -unity-text-align: middle-center;
+    margin-top: 8px;
 }
 
 /* 3D RENDER VIEWPORT */
 .render-viewport {
     flex-grow: 1;
-    background-color: transparent;
+    background-color: rgba(5,5,5, 0.8);
+    margin-top: 8px;
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+/* GAUGES & PROGRESS BARS */
+.stat-progress {
+    flex-grow: 1;
+    height: 14px;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+.stat-progress .unity-progress-bar__container {
+    min-height: 14px;
+    max-height: 14px;
+}
+.stat-progress .unity-progress-bar__background {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+.stat-progress .unity-progress-bar__progress {
+    background-color: #3b82f6;
+    border-radius: 5px;
+    margin: 0;
+}
+.stat-progress .unity-progress-bar__title {
+    color: white;
+    font-size: 10px;
+    -unity-font-style: bold;
+}
+
+/* DYNAMIC URGENCY CLASSES */
+.urgency-faible {
+    color: #10b981; /* Emerald/Green */
+    -unity-font-style: bold;
+    transition: all 0.3s;
+}
+.urgency-moyenne {
+    color: #f59e0b; /* Yellow/Orange */
+    -unity-font-style: bold;
+    transition: all 0.3s;
+}
+.urgency-haute {
+    color: #ef4444; /* Forceful Red */
+    border-color: #ef4444;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 2px 6px;
+    -unity-font-style: bold;
+    background-color: rgba(239, 68, 68, 0.1);
+    transition: all 0.3s;
+}
+
+
+/* Camera Controls Overlay */
+.cam-controls {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    flex-direction: row;
+}
+
+.cam-btn {
+    width: 28px;
+    height: 28px;
+    margin-left: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 16px;
+    -unity-font-style: bold;
+    border-radius: 4px;
+    border-width: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+    transition: all 0.2s;
+}
+
+.cam-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.no-signal {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    width: 100%;
+    -unity-text-align: middle-center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.listening {
+    background-color: #ef4444;
+    color: white;
+    scale: 1.1;
+}
+
+
+
+
+/* Progress Bar Polish */
+.stat-progress .unity-progress-bar__background {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+.stat-progress .unity-progress-bar__progress {
+    background-color: #3b82f6; 
+    border-radius: 4px;
+}
+
+/* Scanner Button Cleanup */
+.scan-btn {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    translate: -50% 0;
+    margin: 0;
+    padding: 6px 12px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+.scan-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Text Input Chrome Base */
+.semantic-input > .unity-base-text-field__input {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding-left: 12px;
+}
+
+/* 2026 Modern Liquid/Pill Aesthetics */
+.btn, .scan-btn, .teleop-btn, .submit-btn, .math-btn, .record-btn {
+    border-radius: 24px;
+}
+.semantic-input > .unity-base-text-field__input {
+    border-radius: 24px;
+    padding-left: 16px;
+}
+.stat-box.glass-panel {
+    border-radius: 16px;
+}
+.stat-progress .unity-progress-bar__progress {
+    background-color: #60a5fa; /* Modern brighter tech blue */
+}
+.danger-zone {
+    border-color: rgba(239, 68, 68, 0.6);
 }
