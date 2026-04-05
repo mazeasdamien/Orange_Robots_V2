@@ -263,32 +263,48 @@ namespace RobotOrange.UI
                 return;
             }
 
-            // Specifically targets ' "data":"<base64>" ' from within the UnityPushServer wrapped payload
-            int dataIndex = jsonMessage.IndexOf("\"data\"");
-            if (dataIndex != -1)
+            try
             {
-                int colonIndex = jsonMessage.IndexOf(':', dataIndex);
-                int startQuote = jsonMessage.IndexOf('"', colonIndex + 1);
-                if (startQuote != -1)
+                // Robust extraction skipping the "data:image/jpeg;base64," prefix
+                int b64Index = jsonMessage.IndexOf("base64,");
+                if (b64Index != -1)
                 {
-                    int start = startQuote + 1;
-                    int end = jsonMessage.IndexOf('"', start);
-                    if (end != -1)
+                    int start = b64Index + 7;
+                    int endQuote = jsonMessage.IndexOf('"', start);
+                    if (endQuote != -1)
                     {
-                        string b64 = jsonMessage.Substring(start, end - start);
+                        string b64 = jsonMessage.Substring(start, endQuote - start);
                         byte[] imageBytes = Convert.FromBase64String(b64);
                         if (targetTex.LoadImage(imageBytes))
                         {
                             targetPanel.style.backgroundImage = new StyleBackground(targetTex);
-                            var signalLbl = targetPanel.Q<Label>("NoSignalLbl");
-                            if (signalLbl != null) signalLbl.style.display = DisplayStyle.None;
-                        }
-                        else 
-                        {
-                            Debug.LogWarning("[Dashboard] targetTex.LoadImage failed to parse base64 bytes!");
                         }
                     }
                 }
+                else
+                {
+                    // Fallback to legacy raw string extract
+                    int payloadIndex = jsonMessage.IndexOf("\"payload\"");
+                    if (payloadIndex == -1) payloadIndex = jsonMessage.IndexOf("\"data\"");
+                    if (payloadIndex != -1)
+                    {
+                        int startQuote = jsonMessage.IndexOf('"', jsonMessage.IndexOf(':', payloadIndex));
+                        int endQuote = jsonMessage.IndexOf('"', startQuote + 1);
+                        if (startQuote != -1 && endQuote != -1)
+                        {
+                            string b64 = jsonMessage.Substring(startQuote + 1, endQuote - startQuote - 1);
+                            byte[] imageBytes = Convert.FromBase64String(b64);
+                            if (targetTex.LoadImage(imageBytes))
+                            {
+                                targetPanel.style.backgroundImage = new StyleBackground(targetTex);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[Dashboard] Frame decode error: {ex.Message}");
             }
         }
 
