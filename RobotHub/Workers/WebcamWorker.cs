@@ -66,9 +66,12 @@ namespace RobotHub.Workers
 
                 _logger.LogInformation($"[WebcamWorker] USB Camera {cameraIndex} active. Streaming immediately...");
 
-                // Configuration de la résolution souhaitée
-                capture.Set(VideoCaptureProperties.FrameWidth, 1280);
-                capture.Set(VideoCaptureProperties.FrameHeight, 720);
+                // Configuration de la résolution souhaitée. 
+                // On repasse en 640x480 par défaut puisque la RealSense ne supporte apparemment pas l'encodage matériel MJPG via DirectShow (ce qui coupait l'image).
+                // La baisse de résolution permet aux deux flux non compressés (YUY2) de tenir sur le même câble USB à 30 FPS.
+                // capture.Set(VideoCaptureProperties.FourCC, VideoWriter.FourCC('M', 'J', 'P', 'G'));
+                capture.Set(VideoCaptureProperties.FrameWidth, 640);
+                capture.Set(VideoCaptureProperties.FrameHeight, 480);
 
                 var encodeParams = new[] { (int)ImwriteFlags.JpegQuality, 75 }; // Balanced Jpeg quality
 
@@ -101,8 +104,8 @@ namespace RobotHub.Workers
                         _ = _unityPush.BroadcastAsync(pushKey, dataUriParams);
                     }
                     
-                    // Limitation du framerate (Optionnel : ici ~30 FPS -> 1000ms / 30 = 33)
-                    await Task.Delay(33, token).ConfigureAwait(false);
+                    // Petite pause pour ne pas verrouiller le thread, le "Read()" se synchronise déjà à la caméra.
+                    await Task.Delay(1, token).ConfigureAwait(false);
                 }
             }
             catch (OperationCanceledException) { }
