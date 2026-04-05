@@ -457,7 +457,7 @@
     letter-spacing: 2px;
 }
 
-.listening {
+.record-btn.listening {
     background-color: #ef4444;
     color: white;
     scale: 1.1;

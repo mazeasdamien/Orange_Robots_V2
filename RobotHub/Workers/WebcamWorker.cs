@@ -100,9 +100,8 @@ namespace RobotHub.Workers
                         // Push video frames directly into Unity client (independent of ROS)
                         _ = _unityPush.BroadcastAsync(pushKey, dataUriParams);
                     }
-                    // OpenCvSharp naturally blocks on capture.Read() according to the hardware USB frame clock.
-                    // A yielding delay prevents thread starvation without halving the framerate like Task.Delay(33) did.
-                    await Task.Yield();
+                    // A yielding delay prevents thread starvation without halving the framerate
+                    await Task.Delay(1, token).ConfigureAwait(false);
                 }
             }
             catch (OperationCanceledException) { }

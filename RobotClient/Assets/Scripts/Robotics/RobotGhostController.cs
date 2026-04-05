@@ -50,25 +50,33 @@ namespace RobotOrange.Robotics
             {
                 foreach (var r in renderers)
                 {
-                    foreach (var m in r.materials)
+                    var mats = r.materials;
+                    bool changed = false;
+                    for (int i = 0; i < mats.Length; i++)
                     {
-                        if (m.shader.name == "Standard" || m.shader.name == "Hidden/InternalErrorShader" || m.shader.name.Contains("Error"))
+                        var m = mats[i];
+                        if (m != null && (m.shader.name == "Standard" || m.shader.name == "Hidden/InternalErrorShader" || m.shader.name.Contains("Error")))
                         {
                             Color albedo = new Color(0.8f, 0.8f, 0.8f, 1f);
-                            if (m.HasProperty("_Color")) 
+                            if (m.HasProperty("_Color"))
                             {
                                 try { albedo = m.GetColor("_Color"); } catch { }
                             }
 
-                            m.shader = urpShader;
+                            Material newMat = new Material(urpShader);
+                            albedo.a = 1.0f; // Force Opaque
+                            newMat.SetColor("_BaseColor", albedo);
 
-                            if (m.HasProperty("_BaseColor")) 
+                            if (m.HasProperty("_MainTex"))
                             {
-                                albedo.a = 1.0f; // Force Opaque to prevent invisible mesh
-                                m.SetColor("_BaseColor", albedo);
+                                try { newMat.SetTexture("_BaseMap", m.GetTexture("_MainTex")); } catch { }
                             }
+
+                            mats[i] = newMat;
+                            changed = true;
                         }
                     }
+                    if (changed) r.materials = mats;
                 }
             }
             else
