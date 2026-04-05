@@ -515,6 +515,23 @@
       </div>
     </div>
 
+    <!-- Camera Feeds Preview -->
+    <div class="card log-card" style="padding: 24px;">
+      <div class="card-title-row" style="margin-top:0;">
+        <div class="card-title">Live Camera Feeds</div>
+      </div>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Camera 1 (Index 0)</div>
+          <img id="cam1-preview" style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: var(--radius-sm); border: 1px solid var(--surface-border); object-fit: contain;">
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Camera 2 (Index 1)</div>
+          <img id="cam2-preview" style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: var(--radius-sm); border: 1px solid var(--surface-border); object-fit: contain;">
+        </div>
+      </div>
+    </div>
+
     <!-- Event Log -->
     <div class="card log-card">
       <div class="log-box" id="log-box"></div>
@@ -688,7 +705,34 @@
       };
     }
 
+    // ── WebSocket Camera Preview ──
+    function connectCamPreview() {
+      const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${wsProtocol}//${location.host}/scene3d-ws`;
+      const ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        addLog('Camera preview socket connected', 'info');
+      };
+
+      ws.onmessage = (e) => {
+        try {
+          const msg = JSON.parse(e.data);
+          if (msg.type === 'updateCameraFeed') {
+            document.getElementById('cam1-preview').src = msg.payload;
+          } else if (msg.type === 'updateCameraFeed2') {
+            document.getElementById('cam2-preview').src = msg.payload;
+          }
+        } catch (err) {}
+      };
+
+      ws.onclose = () => {
+        setTimeout(connectCamPreview, 3000);
+      };
+    }
+
     connect();
+    connectCamPreview();
   </script>
 </body>
 

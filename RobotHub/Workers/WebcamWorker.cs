@@ -13,6 +13,15 @@ namespace RobotHub.Workers
         private readonly ILogger<WebcamWorker> _logger;
         private readonly UnityPushServer _unityPush;
 
+        // Change these indices to select which physical cameras to capture.
+        // Based on your system: 
+        // 0 = HD Webcam (Ceiling)
+        // 1 = RealSense Depth (Black/Unsupported format)
+        // 2 = Creative GestureCam
+        // 4 = RealSense RGB
+        public const int CAMERA_1_INDEX = 2; 
+        public const int CAMERA_2_INDEX = 3;
+
         private volatile int _framesLastSec;
         private volatile int _totalFrames;
         private DateTime _lastFpsTime = DateTime.Now;
@@ -25,10 +34,20 @@ namespace RobotHub.Workers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("[WebcamWorker] Pre-caching RealSense intrinsics before asserting DSHOW camera locks...");
+            
+            // Appelé en amont : permet de libérer le SDK Intel RealSense avant que OpenCV ne bloque le port USB.
+            _ = RealSenseIntrinsics.GetColorIntrinsics();
+
             _logger.LogInformation("[WebcamWorker] Starting independent USB Webcam capture pipelines...");
 
-            var t1 = Task.Run(() => CaptureLoop(0, "updateCameraFeed", stoppingToken), stoppingToken);
-            var t2 = Task.Run(() => CaptureLoop(1, "updateCameraFeed2", stoppingToken), stoppingToken);
+            var t1 = Task.Run(() => CaptureLoop(CAMERA_1_INDEX, "updateCameraFeed", stoppingToken), stoppingToken);
+            
+            // DSHOW backend initialization on Windows is notoriously thread-unsafe.
+            // Staggering the startup prevents the "can't capture by index" race condition.
+            await Task.Delay(2000, stoppingToken);
+            
+            var t2 = Task.Run(() => CaptureLoop(CAMERA_2_INDEX, "updateCameraFeed2", stoppingToken), stoppingToken);
 
             await Task.WhenAll(t1, t2);
         }
@@ -37,7 +56,7 @@ namespace RobotHub.Workers
         {
             try
             {
-                // Use DirectShow for Windows - significantly more stable for older webcams!
+                // OpenCV DSHOW is recommended on Windows, staggered startup prevents indexing bugs
                 using var capture = new VideoCapture(cameraIndex, VideoCaptureAPIs.DSHOW);
                 if (!capture.IsOpened())
                 {
@@ -47,49 +66,43 @@ namespace RobotHub.Workers
 
                 _logger.LogInformation($"[WebcamWorker] USB Camera {cameraIndex} active. Streaming immediately...");
 
+                // Configuration de la résolution souhaitée
+                capture.Set(VideoCaptureProperties.FrameWidth, 1280);
+                capture.Set(VideoCaptureProperties.FrameHeight, 720);
+
                 var encodeParams = new[] { (int)ImwriteFlags.JpegQuality, 75 }; // Balanced Jpeg quality
 
-                while (!token.IsCancellationRequested)
+                // Boucle de capture asynchrone
+                while (!token.IsCancellationRequested && capture.IsOpened())
                 {
                     using var frame = new Mat();
-                    if (!capture.Read(frame) || frame.Empty())
+                    // Lecture de la trame matérielle
+                    if (capture.Read(frame) && !frame.Empty())
                     {
-                        await Task.Delay(100, token);
-                        continue;
+                        // Encodage matériel de l'image
+                        Cv2.ImEncode(".jpg", frame, out byte[] imageBytes, encodeParams);
+                        string base64Image = Convert.ToBase64String(imageBytes);
+
+                        // Track FPS for dashboard
+                        Interlocked.Increment(ref _totalFrames);
+                        Interlocked.Increment(ref _framesLastSec);
+                        var now = DateTime.Now;
+                        if ((now - _lastFpsTime).TotalSeconds >= 1)
+                        {
+                            RobotRelayService.PushImageStats(_framesLastSec, _totalFrames);
+                            _framesLastSec = 0;
+                            _lastFpsTime = now;
+                        }
+
+                        // Formater en URI Data Scheme compatible web standard
+                        string dataUriParams = $"\"data:image/jpeg;base64,{base64Image}\"";
+                        
+                        // Push video frames directly into Unity client (independent of ROS)
+                        _ = _unityPush.BroadcastAsync(pushKey, dataUriParams);
                     }
-
-                    // Optional: dynamically downscale massive raw webcams to prevent latency
-                    using var sendMat = new Mat();
-                    if (frame.Cols > 800)
-                    {
-                        var width = 640;
-                        var height = (int)((float)width / frame.Cols * frame.Rows);
-                        Cv2.Resize(frame, sendMat, new Size(width, height));
-                    }
-                    else
-                    {
-                        frame.CopyTo(sendMat);
-                    }
-
-                    Cv2.ImEncode(".jpg", sendMat, out byte[] imageBytes, encodeParams);
-                    string b64 = Convert.ToBase64String(imageBytes);
-
-                    // Track FPS for dashboard
-                    Interlocked.Increment(ref _totalFrames);
-                    Interlocked.Increment(ref _framesLastSec);
-                    var now = DateTime.Now;
-                    if ((now - _lastFpsTime).TotalSeconds >= 1)
-                    {
-                        RobotRelayService.PushImageStats(_framesLastSec, _totalFrames);
-                        _framesLastSec = 0;
-                        _lastFpsTime = now;
-                    }
-
-                    // Push video frames directly into Unity client (independent of ROS)
-                    _ = _unityPush.BroadcastAsync(pushKey, $"{{\"data\":\"{b64}\"}}");
-
-                    // Small yield to ensure thread scheduler doesn't lock completely
-                    await Task.Delay(1, token);
+                    
+                    // Limitation du framerate (Optionnel : ici ~30 FPS -> 1000ms / 30 = 33)
+                    await Task.Delay(33, token).ConfigureAwait(false);
                 }
             }
             catch (OperationCanceledException) { }

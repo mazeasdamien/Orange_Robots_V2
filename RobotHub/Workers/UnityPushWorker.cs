@@ -42,7 +42,7 @@ namespace RobotHub.Workers
                 }
                 else
                 {
-                    _logger.LogWarning("[UnityPushWorker] RealSense not available — intrinsics not sent.");
+                    _logger.LogTrace("[UnityPushWorker] RealSense not available — intrinsics not sent.");
                 }
             };
         }

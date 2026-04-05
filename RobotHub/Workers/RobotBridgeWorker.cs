@@ -36,7 +36,7 @@ namespace RobotHub.Workers
 
             // Single static log subscription shared by both bridges registered once here,
             // not inside BuildBridge (which would subscribe it twice).
-            _logHandler = msg => _logger.LogDebug("{Message}", msg);
+            _logHandler = msg => _logger.LogTrace("{Message}", msg);
             RobotBridgeService.OnLog += _logHandler;
         }
 
