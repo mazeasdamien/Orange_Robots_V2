@@ -15,9 +15,12 @@
         </ui:VisualElement>
         <ui:VisualElement class="right-panel">
             <ui:VisualElement class="semantic-header glass-panel">
-                <ui:Button name="RecordBtn" text="🎙" class="btn record-btn"/>
-                <ui:VisualElement style="flex-grow: 1; margin: 0 12px; justify-content: center;"><ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input" style="margin: 0;"/><ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" class="text-muted" style="font-size: 10px; margin-top: 4px;"/></ui:VisualElement>
-                <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
+                <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: space-between; width: 100%;">
+                    <ui:Button name="RecordBtn" text="🎙" class="btn record-btn"/>
+                    <ui:TextField name="IntentInput" placeholder-text="Énoncer ou taper une commande..." class="semantic-input" style="flex-grow: 1; margin: 0 12px;"/>
+                    <ui:Button name="SubmitBtn" text="SOUMETTRE" class="btn submit-btn"/>
+                </ui:VisualElement>
+                <ui:Label name="LastCommandLbl" text="Dernier ordre : Aucun" class="text-muted" style="font-size: 10px; margin-top: 8px; margin-left: 76px;"/>
             </ui:VisualElement>
             <ui:VisualElement class="stats-row">
                 <ui:VisualElement class="stat-box glass-panel">
